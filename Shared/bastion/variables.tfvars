@@ -1,0 +1,26 @@
+profile                     = "atos-integracam-tf-desarrollo"
+key                         = "terraform/dev"
+region                      = "us-east-1"
+dynamodb_table              = "tf-up-and-running-locks-us-east-1-bvvy"
+s3backend                   = "s3-devsysops-841131224287-us-east-1-bvvy"
+s3devops                    = "s3-devsysops-841131224287-us-east-1-bvvy"
+CostCenter                  = "cc-"
+ProjectId                   = "pid-"
+ServiceId                   = "sid-"
+stage                       = "Dev"
+name                        = "bastion"
+ssh_public_key_path         = "./secret"
+generate_ssh_key            = true
+Environment                 = "Dev"
+namespace                   = "aa"
+instance_type               = "t3.micro"
+max_size                    = "1"
+min_size                    = "1"
+cooldown                    = "300"
+health_check_grace_period   = "600"
+desired_capacity            = "1"
+scale_down_desired_capacity = "1"
+scale_down_min_size         = "1"
+
+
+enabledcronweekend = true
