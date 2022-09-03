@@ -3,7 +3,7 @@ resource "helm_release" "metrics_server" {
 
   keyring   = ""
   name      = "metrics-server"
-  chart     = "stable/metrics-server"
+  chart     = "metrics-server"
   namespace = "kube-system"
 
   set {
