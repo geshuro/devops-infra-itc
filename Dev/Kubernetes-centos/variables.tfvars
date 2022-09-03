@@ -46,3 +46,7 @@ DiskSizeKubernetesDataEBS = 54
 #2 vcores y 4GB RAM
 KubernetesInstanceType = "t2.medium"
 AvailabilityZoneEBS = "us-east-1a"
+
+# Add Stop/Start via cron Cloudwacht
+AutoStart = true
+AutoStop = true

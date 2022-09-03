@@ -127,3 +127,15 @@ variable "AvailabilityZoneEBS" {
   description = "Availability Zone EBS"
   #default     = "us-east-1a"
 }
+
+variable "AutoStart" {
+  description = "Add Start via cron Cloudwacht"
+  type = bool
+  default = false
+}
+
+variable "AutoStop" {
+  description = "Add Stop via cron Cloudwacht"
+  type = bool
+  default = false
+}

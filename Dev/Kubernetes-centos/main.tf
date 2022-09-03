@@ -202,6 +202,8 @@ resource "aws_instance" "kubernetes_server" {
     CostCenterId = var.CostCenterId
     ServiceId    = var.ServiceId
     ProjectId    = var.ProjectId
+    Auto-Start   = var.AutoStart
+    Auto-Stop    = var.AutoStop
   }
   /* imendozah
   volume_tags = {
