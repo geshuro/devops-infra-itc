@@ -21,19 +21,20 @@ resource "random_string" "random" {
   min_lower = 4
   special   = false
 }
+/*deprecado
 ##  Helm install ######
 data "helm_repository" "incubator" {
   name = "incubator"
   url  = "http://storage.googleapis.com/kubernetes-charts-incubator"
-}
+}*/
 
 resource "helm_release" "aws_alb_ingress" {
   count = local.install_alb_ingress ? 1 : 0
-
+  repository = "https://aws.github.io/eks-charts"
   keyring   = ""
   name      = local.alb_ingress_name
   namespace = local.alb_ingress_namespace
-  chart     = "incubator/aws-alb-ingress-controller"
+  chart     = "aws-load-balancer-controller"
 
   values = [
     join("", data.template_file.aws_alb_ingress.*.rendered),
@@ -43,7 +44,13 @@ resource "helm_release" "aws_alb_ingress" {
     name  = "nameOverride"
     value = local.alb_ingress_name
   }
-
+  
+  /*set {
+    name  = "podSecurityContext.runAsUser"
+    value = 1000
+  }*/
+  
+  
   # depends_on = [kubernetes_deployment.tiller_deploy]
 }
 
