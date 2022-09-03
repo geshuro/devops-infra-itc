@@ -13,9 +13,9 @@ module "networking" {
   cidr_block_private-internal-subnet = ["${module.map_vpc.ListSubnetsInt1}", "${module.map_vpc.ListSubnetsInt2}"]
 
   vpcName                       = var.vpcName
-  public_subnet-count           = 1
+  public_subnet-count           = 2
   bastion_nat_subnet-count      = 1
-  private_subnet-count          = 1
+  private_subnet-count          = 2
   private_lb_subnet-count       = 0
   private_internal_subnet-count = 0
   nat-gw-count                  = 1
