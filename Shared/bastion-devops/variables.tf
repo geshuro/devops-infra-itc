@@ -88,7 +88,13 @@ variable "account_canonical_ubuntu" {
 }
 
 variable "AutoStart" {
-  description = "Add Stop/Start via cron Cloudwacht"
+  description = "Add Start via cron Cloudwacht"
+  type = bool
+  default = false
+}
+
+variable "AutoStop" {
+  description = "Add Stop via cron Cloudwacht"
   type = bool
   default = false
 }

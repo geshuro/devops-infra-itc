@@ -191,7 +191,8 @@ module "label_this" {
       "CostCenter"          = var.CostCenter
       "ServiceId"           = var.ServiceId
       "Auto-Start"          = var.AutoStart
-      "GroupApplication"    = var.name  
+      "Auto-Stop"          = var.AutoStop
+      "GroupApplication"    = var.name 
     }
     additional_tag_map = {
       propagate_at_launch = "true"

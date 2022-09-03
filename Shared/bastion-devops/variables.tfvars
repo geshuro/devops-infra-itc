@@ -38,8 +38,8 @@ stage = "dev"
 name = "bastion-devops"
 
 # Add Stop/Start via cron Cloudwacht
-AutoStart = true
-
+AutoStart = false
+AutoStop = true
 ### SNS ###########
 
 # "Email for sns notifications"
@@ -50,3 +50,4 @@ instance_type = "t3.small"
 
 ssh_public_key_path = "./secret"
 generate_ssh_key = true
+
