@@ -1,26 +1,26 @@
 output "cluster_id" {
   description = "The name/id of the EKS cluster."
-  value       = element(concat(aws_eks_cluster.arqref.*.id, list("")), 0)
+  value       = element(concat(aws_eks_cluster.arqref.*.id, tolist([""])), 0)
 }
 
 output "cluster_arn" {
   description = "The Amazon Resource Name (ARN) of the cluster."
-  value       = element(concat(aws_eks_cluster.arqref.*.arn, list("")), 0)
+  value       = element(concat(aws_eks_cluster.arqref.*.arn, tolist([""])), 0)
 }
 
 output "cluster_certificate_authority_data" {
   description = "Nested attribute containing certificate-authority-data for your cluster. This is the base64 encoded certificate data required to communicate with your cluster."
-  value       = element(concat(aws_eks_cluster.arqref[*].certificate_authority[0].data, list("")), 0)
+  value       = element(concat(aws_eks_cluster.arqref[*].certificate_authority[0].data, tolist([""])), 0)
 }
 
 output "cluster_endpoint" {
   description = "The endpoint for your EKS Kubernetes API."
-  value       = element(concat(aws_eks_cluster.arqref.*.endpoint, list("")), 0)
+  value       = element(concat(aws_eks_cluster.arqref.*.endpoint, tolist([""])), 0)
 }
 
 output "cluster_version" {
   description = "The Kubernetes server version for the EKS cluster."
-  value       = element(concat(aws_eks_cluster.arqref[*].version, list("")), 0)
+  value       = element(concat(aws_eks_cluster.arqref[*].version, tolist([""])), 0)
 }
 
 output "cluster_security_group_id" {
@@ -50,7 +50,7 @@ output "cluster_oidc_issuer_url" {
 
 output "cluster_primary_security_group_id" {
   description = "The cluster primary security group ID created by the EKS cluster on 1.14 or later. Referred to as 'Cluster security group' in the EKS console."
-  value       = var.cluster_version >= 1.14 ? element(concat(aws_eks_cluster.arqref[*].vpc_config[0].cluster_security_group_id, list("")), 0) : null
+  value       = var.cluster_version >= 1.14 ? element(concat(aws_eks_cluster.arqref[*].vpc_config[0].cluster_security_group_id, tolist([""]) ), 0) : null
 }
 
 output "cloudwatch_log_group_name" {

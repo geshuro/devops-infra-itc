@@ -244,7 +244,7 @@ resource "null_resource" "update_kube_config" {
 data "aws_region" "current" {}
 # Fetch OIDC provider thumbprint for root CA
 data "external" "thumbprint" {
-  program = ["${path.module}/scripts/oidc-thumbprint.sh", data.aws_region.current.name]
+  program = ["sh","${path.module}/scripts/oidc-thumbprint.sh", data.aws_region.current.name]
 
 }
 
