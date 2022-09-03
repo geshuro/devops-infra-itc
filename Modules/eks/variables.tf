@@ -342,7 +342,7 @@ variable "eks_update_kubeconfig" {
 variable "aws_profile" {
   description = "AWS Profile"
   type        = string
-  default     = "sunat-cuc"
+  default     = "atos-integracam-tf-desarrollo"
 }
 
 #####   Enabling AutoScaling Schedule   ############
@@ -371,6 +371,38 @@ variable "cronweekendup" {
   })
   default = {
     cron       = "0 6 * * MON"
+    start_time = "2020-06-19T18:00:00Z"
+    end_time   = "2030-06-19T18:00:00Z"
+  }
+}
+
+variable "enabledcrondaily" {
+  type        = bool
+  description = "If exist cron for daily down/up"
+  default     = false
+}
+
+variable "crondailydown" {
+  type = object({
+    cron       = string
+    start_time = string
+    end_time   = string
+  })
+  default = {
+    cron       = "0 1 * * SAT"
+    start_time = "2020-06-19T18:00:30Z"
+    end_time   = "2030-06-19T18:00:30Z"
+  }
+}
+
+variable "crondailyup" {
+  type = object({
+    cron       = string
+    start_time = string
+    end_time   = string
+  })
+  default = {
+    cron       = "0 2 * * 1-5"
     start_time = "2020-06-19T18:00:00Z"
     end_time   = "2030-06-19T18:00:00Z"
   }

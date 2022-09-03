@@ -507,6 +507,62 @@ resource "aws_autoscaling_schedule" "eks-up-weekend" {
     ]
   }
 }
+
+#imendozah
+resource "aws_autoscaling_schedule" "eks-down-daily" {
+  count = var.enabledcrondaily && var.create_eks ? local.worker_group_count : 0
+  scheduled_action_name  = "eks-down-daily"
+  min_size               = 0
+  max_size               = 0
+  desired_capacity       = 0
+  recurrence             = var.crondailydown.cron
+  # start_time             = timeadd(timestamp(), "20m")      // var.cronweekenddown.start_time //"2020-06-19T18:00:00Z"
+  end_time               = timeadd(timestamp(), "87600h2m") //: var.cronweekenddown.end_time//"2030-06-19T18:00:00Z"
+  autoscaling_group_name = aws_autoscaling_group.workers[count.index].name
+  lifecycle {
+    #create_before_destroy = true
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      start_time,
+      end_time
+    ]
+  }
+}
+
+resource "aws_autoscaling_schedule" "eks-up-daily" {
+  count = var.enabledcrondaily && var.create_eks ? local.worker_group_count : 0
+  scheduled_action_name  = "eks-up-daily"
+  min_size               = lookup(
+                           var.worker_groups[count.index],
+                          "asg_min_size",
+                           local.workers_group_defaults["asg_min_size"],
+                          )
+  max_size               = lookup(
+                           var.worker_groups[count.index],
+                           "asg_max_size",
+                            local.workers_group_defaults["asg_max_size"],
+                           )
+  desired_capacity       = lookup(
+                            var.worker_groups[count.index],
+                            "asg_desired_capacity",
+                            local.workers_group_defaults["asg_desired_capacity"],
+                            )
+  recurrence             = var.crondailyup.cron           // == "" ? "6 0 * * MON" : var.cronweekendup.cron //"6 0 * * MON" // 0 23 * * MON-FRI
+  # start_time             = timeadd(timestamp(), "25m")      //: var.cronweekendup.start_time //"2020-06-19T18:00:30Z"
+  end_time               = timeadd(timestamp(), "87600h5m") //: var.cronweekendup.end_time //"2030-06-19T18:00:30Z"
+  autoscaling_group_name = aws_autoscaling_group.workers[count.index].name
+  lifecycle {
+    #create_before_destroy = true
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      start_time,
+      end_time
+    ]
+  }
+}
+
 resource "random_pet" "workers" {
   count = var.create_eks ? local.worker_group_count : 0
 
