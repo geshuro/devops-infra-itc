@@ -13,7 +13,7 @@ cluster_version = "1.23"
 #2 cpu 8gb
 instance_type = "t3a.large"
 
-desired_capacity = 3
+desired_capacity = 1
 
 max_size = 3
 
