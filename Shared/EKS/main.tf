@@ -63,6 +63,25 @@ module "eks" {
 
   node_groups_defaults = var.node_groups_defaults
 
+  node_groups = {
+    devops = {
+      desired_capacity = 1
+      max_capacity     = 4
+      min_capacity     = 1
+
+      instance_type = "t3a.large"
+      //k8s_labels = local.tags
+    },
+    devops2 = {
+      desired_capacity = 1
+      max_capacity     = 4
+      min_capacity     = 1
+
+      instance_type = "t3a.large"
+      //k8s_labels = local.tags
+    }
+  }
+  /*
   worker_groups = [
     {
       name                          = "devops-worker-group"
@@ -75,8 +94,19 @@ module "eks" {
       worker_groups        = {
         tags = local.tags
       }
+    },
+    {
+      name                          = "devops-worker-group-2"
+      instance_type                 = var.instance_type
+      additional_userdata           = "echo EKS Worker Node 2"
+      asg_desired_capacity          = 1
+      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
+      worker_groups        = {
+        tags = local.tags
+      }
     }
-  ]
+  ] 
+  */
 
   workers_additional_policies = ["arn:aws:iam::aws:policy/AmazonS3FullAccess"]
 
