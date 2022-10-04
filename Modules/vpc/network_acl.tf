@@ -1,7 +1,7 @@
 resource "aws_network_acl" "public_bastion_nat_subnet" {
   vpc_id     = aws_vpc.main.id
   subnet_ids = aws_subnet.bastion-nat-subnet.*.id
-  tags       = merge(map("Name", "acl-nat-${var.vpcName}"), var.tags)
+  tags       = merge(tomap({Name = "acl-nat-${var.vpcName}"}), var.tags)
 
   lifecycle {
     prevent_destroy = false
@@ -12,7 +12,7 @@ resource "aws_network_acl" "public_bastion_nat_subnet" {
 resource "aws_network_acl" "public_subnet" {
   vpc_id     = aws_vpc.main.id
   subnet_ids = aws_subnet.public-subnet.*.id
-  tags       = merge(map("Name", "acl-pub-${var.vpcName}"), var.tags)
+  tags       = merge(tomap({Name = "acl-pub-${var.vpcName}"}), var.tags)
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges
@@ -23,7 +23,7 @@ resource "aws_network_acl" "public_subnet" {
 resource "aws_network_acl" "private_internal_subnet" {
   vpc_id     = aws_vpc.main.id
   subnet_ids = aws_subnet.private-internal-subnet.*.id
-  tags       = merge(map("Name", "acl-int-${var.vpcName}"), var.tags)
+  tags       = merge(tomap({Name = "acl-int-${var.vpcName}"}), var.tags)
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges
@@ -33,7 +33,7 @@ resource "aws_network_acl" "private_internal_subnet" {
 resource "aws_network_acl" "private_and_lb_subnet" {
   vpc_id     = aws_vpc.main.id
   subnet_ids = [aws_subnet.private-subnet[0].id, aws_subnet.private-subnet[1].id, aws_subnet.private-lb-subnet[0].id, aws_subnet.private-lb-subnet[1].id]
-  tags       = merge(map("Name", "acl-priv-${var.vpcName}"), var.tags)
+  tags       = merge(tomap({Name = "acl-priv-${var.vpcName}"}), var.tags)
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges

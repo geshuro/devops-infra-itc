@@ -50,7 +50,7 @@ resource "aws_route_table" "private-subnet-za" {
     #TODO: IgnoreChanges
   }
 }
-/* imendoza
+
 # With a NAT GW attached (but share route table with Private LB Subnets)
 resource "aws_route_table" "private-subnet-zb" {
   depends_on = [aws_nat_gateway.nat-gw]
@@ -67,7 +67,7 @@ resource "aws_route_table" "private-subnet-zb" {
     ]
     #TODO: IgnoreChanges
   }
-}*/
+}
 
 #Internal subnet ==> Without any NAT GW attached
 resource "aws_route_table" "private-internal-subnet" {

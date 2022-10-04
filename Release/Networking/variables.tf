@@ -53,3 +53,32 @@ variable "ProjectId" {
   description = "Identificador Unico de proyecto provisto por uuid4"
   #default     = "apimicroservice"
 }
+
+variable "InternalZoneId" {
+  type        = string
+  description = "Se crea la zona internal DNS"
+}
+
+variable "VPCPeeringEnableShared" {
+  type        = string
+  description = "Crear VPC Peering para activarlo true"
+  default     = "false"
+}
+
+variable "destinoVPCIdShared" {
+  type        = string
+  description = "VPC Id del destino"
+  default     = ""
+}
+
+variable "DescriptionVPCPeeringShared" {
+  type        = string
+  description = "Descripcion de la conexion peering"
+  default     = "VPC Peering Dev to Shared"
+}
+
+variable "vpcCIRDShared" {
+  type        = string
+  description = "CIRD VPC Shared o HUB"
+  default     = ""
+}

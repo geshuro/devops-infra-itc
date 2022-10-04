@@ -20,13 +20,13 @@ resource "aws_vpc_endpoint_route_table_association" "private_s3-za" {
   vpc_endpoint_id = aws_vpc_endpoint.s3[0].id
   route_table_id  = element(var.route-table-private-za, count.index)
 }
-/* imendoza
+
 resource "aws_vpc_endpoint_route_table_association" "private_s3-zb" {
   count           = var.create_vpc && var.enable_s3_endpoint ? 2 : 0
   vpc_endpoint_id = aws_vpc_endpoint.s3[0].id
   route_table_id  = element(var.route-table-private-zb, count.index)
 }
-*/
+
 ############################
 # VPC Endpoint for DynamoDB
 ############################

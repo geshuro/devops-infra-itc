@@ -1,7 +1,7 @@
 variable "nat-gw-count" {}        # Numbers of NAT GW created
 variable "subnets-id" {}          # Lists of Subnets IDs created
 variable "route-table-private-za" {} # RouteTable of PrivateSubnets
-/* imendoza variable "route-table-private-zb" {} # RouteTable of PrivateSubnets */
+variable "route-table-private-zb" {} # RouteTable of PrivateSubnets
 
 variable "main_vpc" {
   type        = string

@@ -65,13 +65,6 @@ output "bastion-nat-subnet-cidrblock" {
 }
 
 # ################
-# #     EIPS     #
-# ################
-output "eip_nat-public_ip" {
-  value = module.networking.eip_nat-public_ip
-}
-
-# ################
 # #     IGW      #
 # ################
 output "internet_gateway-main_gw-id" {
@@ -79,25 +72,6 @@ output "internet_gateway-main_gw-id" {
 }
 output "internet_gateway-main_gw-name" {
   value = module.networking.internet_gateway-main_gw-name
-}
-
-# ################
-# #    NAT GW    #
-# ################
-output "nat_gateway-nat_gw-id" {
-  value = module.networking.nat_gateway-nat_gw-id
-}
-output "nat_gateway-nat_gw-name" {
-  value = module.networking.nat_gateway-nat_gw-name
-}
-output "nat_gateway-nat_gw-public_ip" {
-  value = module.networking.nat_gateway-nat_gw-public_ip
-}
-output "nat_gateway-nat_gw-subnet_id" {
-  value = module.networking.nat_gateway-nat_gw-subnet_id
-}
-output "nat_gateway-nat_gw-subnet_count" {
-  value = module.networking.nat_gateway-nat_gw-subnet_count
 }
 
 # ################
@@ -112,25 +86,16 @@ output "internal_service_domain_id" {
   value = module.networking.internal_service_domain_id
 }
 
+# ######################
+# # VPC Peering Shared #
+# ######################
 
-# ################
-# # VPC Route    #
-# ################
-output "route_table-private_internal_subnet-ids" {
-  value = module.networking.route_table-private_internal_subnet-ids
+output "vpc_peering_shared_id" {
+  description = "Identificador Id VPC peering shared"
+  value       = module.peering.id
 }
-output "route_table-private_internal_subnet-name" {
-  value = module.networking.route_table-private_internal_subnet-name
-}
-output "route_table-public_subnet-ids" {
-  value = module.networking.route_table-public_subnet-ids
-}
-output "route_table-public_bastion_subnet-ids" {
-  value = module.networking.route_table-public_bastion_subnet-ids
-}
-output "route_table-private_subnet-ids-za" {
-  value = module.networking.route_table-private_subnet-ids-za
-}
-output "route_table-private_subnet-ids-zb" {
-  value = module.networking.route_table-private_subnet-ids-zb
+
+output "vpc_peering_shared_status" {
+  description = "Status VPC Peering shared"
+  value       = module.peering.status
 }

@@ -14,12 +14,12 @@ module "networking" {
 
   vpcName                       = var.vpcName
   public_subnet-count           = 2
-  bastion_nat_subnet-count      = 1
+  bastion_nat_subnet-count      = 2
   private_subnet-count          = 2
-  private_lb_subnet-count       = 0
-  private_internal_subnet-count = 0
-  nat-gw-count                  = 1
-  route-table-count             = 1
+  private_lb_subnet-count       = 2
+  private_internal_subnet-count = 2
+  nat-gw-count                  = 2
+  route-table-count             = 2
 
   address_space = var.vpcCIRD
 
@@ -40,8 +40,11 @@ module "VPCEndpoints" {
   source                   = "../../Modules/VPCEndpoints"
   main_vpc                 = module.networking.vpc_id
   subnets-id               = module.networking.private_subnet-id
+  #subnets-id-za            = module.networking.private_subnet-id
+  #subnets-id-zb            = module.networking.private_subnet-id
+  #route-table-private      = module.networking.route_table-private_subnet-ids
   route-table-private-za      = module.networking.route_table-private_subnet-ids-za
-  //route-table-private-zb      = module.networking.route_table-private_subnet-ids-zb
+  route-table-private-zb      = module.networking.route_table-private_subnet-ids-zb
   nat-gw-count             = module.networking.nat_gateway-nat_gw-subnet_count
   create_vpc               = true
   enable_s3_endpoint       = true

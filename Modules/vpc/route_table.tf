@@ -6,7 +6,7 @@ resource "aws_route_table" "public-subnet" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main-gw.id
   }
-  tags = merge(map("Name", "rt-${var.vpcName}-pub"), var.tags)
+  tags = merge(tomap({Name = "rt-${var.vpcName}-pub"}), var.tags)
   lifecycle {
     prevent_destroy = false
     ignore_changes = [
@@ -24,7 +24,7 @@ resource "aws_route_table" "public-bastion-subnet" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main-gw.id
   }
-  tags =  merge(map("Name", "rt-${var.vpcName}-nat"), var.tags)
+  tags =  merge(tomap({Name = "rt-${var.vpcName}-nat"}), var.tags)
   lifecycle {
     prevent_destroy = false
     ignore_changes = [
@@ -44,7 +44,7 @@ resource "aws_route_table" "private-subnet" {
   #   cidr_block     = "0.0.0.0/0"
   #   nat_gateway_id = aws_nat_gateway.nat-gw[0].id
   # }
-  tags = merge(map("Name", "rt-${var.vpcName}-pri"), var.tags)
+  tags = merge(tomap({Name = "rt-${var.vpcName}-pri"}), var.tags)
   lifecycle {
     prevent_destroy = false
     ignore_changes = [
@@ -59,7 +59,7 @@ resource "aws_route_table" "private-internal-subnet" {
   vpc_id = aws_vpc.main.id
   #count  = var.private_internal_subnet-count # reuse nat-gw-count variable because of dependency between nat_gateway & route_table  
 
-  tags = merge(map("Name", "rt-${var.vpcName}-int"), var.tags)
+  tags = merge(tomap({Name = "rt-${var.vpcName}-int"}), var.tags)
   lifecycle {
     prevent_destroy = false
     ignore_changes = [

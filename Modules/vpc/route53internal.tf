@@ -40,7 +40,7 @@ resource "aws_route53_zone" "main" {
 resource "aws_vpc_dhcp_options" "dnsDomainInternal" {
   domain_name_servers = ["AmazonProvidedDNS"]
   domain_name = var.Route53name
-  tags = merge(map("Name", "dhcp-${var.vpcName}-${random_string.random.result}"), var.tags)
+  tags = merge(tomap({Name = "dhcp-${var.vpcName}-${random_string.random.result}"}), var.tags)
 }
 
 # resource "aws_vpc_dhcp_options" "dnsDomainInternal" {

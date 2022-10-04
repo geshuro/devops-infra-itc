@@ -30,19 +30,9 @@ resource "aws_network_acl" "private_internal_subnet" {
   }
 }
 
-/*resource "aws_network_acl" "private_and_lb_subnet" {
-  vpc_id     = aws_vpc.main.id
-  subnet_ids = [aws_subnet.private-subnet[0].id, aws_subnet.private-subnet[1].id, aws_subnet.private-lb-subnet[0].id, aws_subnet.private-lb-subnet[1].id]
-  tags       = merge(tomap({Name = "acl-priv-${var.vpcName}"}), var.tags)
-  lifecycle {
-    prevent_destroy = false
-    #TODO: IgnoreChanges
-  }
-}*/
-//imendoza
 resource "aws_network_acl" "private_and_lb_subnet" {
   vpc_id     = aws_vpc.main.id
-  subnet_ids = [aws_subnet.private-subnet[0].id]
+  subnet_ids = [aws_subnet.private-subnet[0].id, aws_subnet.private-subnet[1].id, aws_subnet.private-lb-subnet[0].id, aws_subnet.private-lb-subnet[1].id]
   tags       = merge(tomap({Name = "acl-priv-${var.vpcName}"}), var.tags)
   lifecycle {
     prevent_destroy = false

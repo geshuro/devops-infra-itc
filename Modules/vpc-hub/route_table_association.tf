@@ -38,7 +38,7 @@ data "aws_subnet_ids" "subnets-lb-pri-zone-a" {
     values = ["sn-${var.vpcName}-${random_string.random.result}-pri-n1-za", "sn-${var.vpcName}-${random_string.random.result}-pri-n2-za"] # insert values here
   }
 }
-/* imendoza
+
 data "aws_subnet_ids" "subnets-lb-pri-zone-b" {
   depends_on = [aws_subnet.private-lb-subnet, aws_subnet.private-subnet]
   vpc_id = aws_vpc.main.id
@@ -47,7 +47,7 @@ data "aws_subnet_ids" "subnets-lb-pri-zone-b" {
     values = ["sn-${var.vpcName}-${random_string.random.result}-pri-n1-zb", "sn-${var.vpcName}-${random_string.random.result}-pri-n2-zb"] # insert values here
   }
 }
-*/
+
 # route associations private (Route table shared between private & private LB subnets)
 resource "aws_route_table_association" "private-lb-subnets-za" {
   depends_on     = [aws_route_table.private-subnet-za]
@@ -59,7 +59,7 @@ resource "aws_route_table_association" "private-lb-subnets-za" {
     #TODO: IgnoreChanges
   }
 }
-/* imendoza
+
 # route associations private (Route table shared between private & private LB subnets)
 resource "aws_route_table_association" "private-lb-subnets-zb" {
   depends_on     = [aws_route_table.private-subnet-zb]
@@ -70,9 +70,9 @@ resource "aws_route_table_association" "private-lb-subnets-zb" {
     prevent_destroy = false
     #TODO: IgnoreChanges
   }
-}*/
+}
 
-/* imendoza # route associations private-internal-subnets
+# route associations private-internal-subnets
 resource "aws_route_table_association" "internal-subnet" {
   depends_on     = [aws_route_table.private-internal-subnet]
   count          = var.nat-gw-count
@@ -82,4 +82,4 @@ resource "aws_route_table_association" "internal-subnet" {
     prevent_destroy = false
     #TODO: IgnoreChanges
   }
-}*/
+}

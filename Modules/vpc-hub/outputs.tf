@@ -148,9 +148,9 @@ output "route_table-public_bastion_subnet-ids" {
 output "route_table-private_subnet-ids-za" {
   value = aws_route_table.private-subnet-za.*.id
 }
-/* imendoza output "route_table-private_subnet-ids-zb" {
+output "route_table-private_subnet-ids-zb" {
   value = aws_route_table.private-subnet-zb.*.id
-}*/
+}
 # ################
 # # Route 53     #
 # ################

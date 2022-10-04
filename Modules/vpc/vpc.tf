@@ -10,7 +10,8 @@ resource "aws_vpc" "main" {
   enable_dns_support   = "true"
   enable_dns_hostnames = "true"
   enable_classiclink   = "false"
-  tags                 = merge(map("Name", "${var.vpcName}-${random_string.random.result}"), var.tags)
+  tags                 = merge(tomap({Name = "${var.vpcName}-${random_string.random.result}"}), var.tags)
+
 
   lifecycle {
     # No se elimina este recurso

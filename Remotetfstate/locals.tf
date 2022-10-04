@@ -1,6 +1,6 @@
 locals {
-  region  = "us-east-1" //Region donde se desplegaran la infraestructura
-  profile = "atos-integracam-tf-desarrollo" //El perfil cuenta con los permisos para desplegar la infraestructura
+  region  = "eu-west-1" //Region donde se desplegaran la infraestructura
+  profile = "atos-integracam-tf-desarrollo-ireland" //El perfil cuenta con los permisos para desplegar la infraestructura
   # Los tags que se asociaran en los recursos que se van a crear.
   common_tags = {
     CostCenter  = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN" // "identificador-unico-sin-espacios"
@@ -9,6 +9,6 @@ locals {
     EntityId    = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN" //"id-de-la-entidad-sin-espacios"
     ProjectName = "integracam" //"Nombre del proyecto"
     ProjectId   = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN" //"id-del-proyecto-sin-espacios"
-    Environment = "desarrollo" //"all"
+    Environment = "all" //"all"
   }
 }

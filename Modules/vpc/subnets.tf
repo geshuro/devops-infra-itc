@@ -9,7 +9,8 @@ resource "aws_subnet" "public-subnet" {
   cidr_block              = element(var.cidr_block_public_subnet, count.index)
   availability_zone_id    = data.aws_availability_zones.available.zone_ids[count.index % length(data.aws_availability_zones.available.zone_ids)]
   map_public_ip_on_launch = "true"
-  tags                    = merge(map("Name", format("sn-%s-pub-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))), map("kubernetes.io/role/elb","1"), var.tags)
+  tags                    = merge(tomap({Name = format("sn-%s-pub-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))}), tomap({"kubernetes.io/role/elb" = "1"}), var.tags)
+
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges
@@ -27,7 +28,8 @@ resource "aws_subnet" "bastion-nat-subnet" {
   cidr_block              = element(var.cidr_block_bastion_nat_subnet, count.index)
   availability_zone_id    = data.aws_availability_zones.available.zone_ids[count.index % length(data.aws_availability_zones.available.zone_ids)]
   map_public_ip_on_launch = "true"
-  tags                    = merge(map("Name", format("sn-%s-nat-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))), var.tags)
+  tags                    = merge(tomap({Name = format("sn-%s-nat-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))}), var.tags)
+
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges
@@ -44,7 +46,8 @@ resource "aws_subnet" "private-lb-subnet" {
   count                = var.private_lb_subnet-count
   cidr_block           = element(var.cidr_block_private-lb-subnet, count.index)
   availability_zone_id = data.aws_availability_zones.available.zone_ids[count.index % length(data.aws_availability_zones.available.zone_ids)]
-  tags                 = merge(map("Name", format("sn-%s-pri-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))), map("kubernetes.io/role/internal-elb","1"), var.tags)
+  tags                 = merge(tomap({Name = format("sn-%s-pri-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))}), tomap({"kubernetes.io/role/internal-elb" = "1"}), var.tags)
+
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges
@@ -60,7 +63,8 @@ resource "aws_subnet" "private-subnet" {
   count                = var.private_subnet-count
   cidr_block           = element(var.cidr_block_private-subnet, count.index)
   availability_zone_id = data.aws_availability_zones.available.zone_ids[count.index % length(data.aws_availability_zones.available.zone_ids)]
-  tags                 = merge(map("Name", format("sn-%s-pri-n2-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))), var.tags)
+  tags                 = merge(tomap({Name = format("sn-%s-pri-n2-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))}), var.tags)
+
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges
@@ -76,7 +80,8 @@ resource "aws_subnet" "private-internal-subnet" {
   count                = var.private_internal_subnet-count
   cidr_block           = element(var.cidr_block_private-internal-subnet, count.index)
   availability_zone_id = data.aws_availability_zones.available.zone_ids[count.index % length(data.aws_availability_zones.available.zone_ids)]
-  tags                 = merge(map("Name", format("sn-%s-int-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))), var.tags)
+  tags                 = merge(tomap({Name = format("sn-%s-int-n1-z%s", aws_vpc.main.tags["Name"], substr(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)], length(data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.zone_ids)]) - 1, 1))}), var.tags)
+
   lifecycle {
     prevent_destroy = false
     #TODO: IgnoreChanges
