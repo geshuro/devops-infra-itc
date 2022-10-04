@@ -485,7 +485,7 @@ resource "aws_launch_configuration" "bastion" {
                 # Associar EIP
                 aws ec2 wait instance-running --instance-id $(curl http:\/\/169.254.169.254/latest/meta-data/instance-id)
                 aws ec2 associate-address --instance-id $(curl http:\/\/169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.eip_bastion.id} --allow-reassociation
-                s3devsysops=$(aws s3 ls | grep "s3-devsysops" | grep "us-east-1"| cut -d " " -f 3)
+                s3devsysops=$(aws s3 ls | grep "s3-devsysops" | grep "${data.aws_region.current.name}"| cut -d " " -f 3)
                 # Actualizar sistema
                 yum update -y
                 # Instalar docker
@@ -501,7 +501,7 @@ resource "aws_launch_configuration" "bastion" {
                 #iptables -t nat -C POSTROUTING -o eth0 -s 10.20.8.0/22 -j MASQUERADE 2> /dev/null
                 #iptables -t nat -A POSTROUTING -o eth0 -s 10.20.8.0/22 -j MASQUERADE
                 # Configurar sincronizacion de usuarios
-                #rpm -i https:\/\/s3-us-east-1.amazonaws.com/widdix-aws-ec2-ssh-releases-us-east-1/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm
+                #rpm -i https:\/\/s3-${data.aws_region.current.name}.amazonaws.com/widdix-aws-ec2-ssh-releases-${data.aws_region.current.name}/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm
                 aws s3 cp s3://$s3devsysops/sysops/bastion/autossh/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm /opt/openvpn/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm
                 rpm -i /opt/openvpn/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm
                 sed -i 's/IAM_AUTHORIZED_GROUPS=""/IAM_AUTHORIZED_GROUPS="ssh"/' /etc/aws-ec2-ssh.conf
