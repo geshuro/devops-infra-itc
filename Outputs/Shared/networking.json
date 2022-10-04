@@ -1,0 +1,366 @@
+{
+  "bastion-nat-subnet-cidrblock": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "10.36.8.0/28",
+      "10.36.8.16/28"
+    ]
+  },
+  "eip_nat-public_ip": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "23.23.240.40",
+      "3.208.97.255"
+    ]
+  },
+  "internal_service_domain": {
+    "sensitive": false,
+    "type": "string",
+    "value": "skydropx.int"
+  },
+  "internal_service_domain_id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "Z059749910DMCW5SHXFR9"
+    ]
+  },
+  "internet_gateway-main_gw-id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "igw-0eb0a7698fe5b13de"
+  },
+  "internet_gateway-main_gw-name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "igw-vpcshared-hyk"
+  },
+  "nat-subnet-id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-0c1db09aa1603a3be",
+      "subnet-0c59038604fd3b78e"
+    ]
+  },
+  "nat_gateway-nat_gw-id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "nat-05b2a8c817c4ef3c8",
+      "nat-061b55f59bcb896d4"
+    ]
+  },
+  "nat_gateway-nat_gw-name": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "map",
+          "string"
+        ],
+        [
+          "map",
+          "string"
+        ]
+      ]
+    ],
+    "value": [
+      {
+        "CostCenter": "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN",
+        "CostCenterId": "cc-b135766f-5855-4e92-a78c-0c03751c7b33",
+        "Environment": "pro",
+        "Name": "ngw-vpcshared-0",
+        "ProjectId": "pid-7f1ae190-bfdf-4c7b-bb65-1a94ef5d970e",
+        "ServiceId": "sid-b4256304-b233-450b-bbe3-7664995f24a8"
+      },
+      {
+        "CostCenter": "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN",
+        "CostCenterId": "cc-b135766f-5855-4e92-a78c-0c03751c7b33",
+        "Environment": "pro",
+        "Name": "ngw-vpcshared-1",
+        "ProjectId": "pid-7f1ae190-bfdf-4c7b-bb65-1a94ef5d970e",
+        "ServiceId": "sid-b4256304-b233-450b-bbe3-7664995f24a8"
+      }
+    ]
+  },
+  "nat_gateway-nat_gw-public_ip": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "23.23.240.40",
+      "3.208.97.255"
+    ]
+  },
+  "nat_gateway-nat_gw-subnet_count": {
+    "sensitive": false,
+    "type": "number",
+    "value": 2
+  },
+  "nat_gateway-nat_gw-subnet_id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-0c1db09aa1603a3be",
+      "subnet-0c59038604fd3b78e"
+    ]
+  },
+  "private-internal-subnet-cidrblock": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "10.36.8.64/28",
+      "10.36.8.80/28"
+    ]
+  },
+  "private-internal-subnet-id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-039ce61b973118c48",
+      "subnet-01adf8ef19848a7a0"
+    ]
+  },
+  "private_1_subnet-cidrblock": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "10.36.8.160/27",
+      "10.36.8.192/27"
+    ]
+  },
+  "private_1_subnet-id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-0096522bcc14a97f8",
+      "subnet-04618073b1d83d9f6"
+    ]
+  },
+  "private_2_subnet-cidrblock": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "10.36.9.0/25",
+      "10.36.9.128/25"
+    ]
+  },
+  "private_2_subnet-id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-02e758eccd27ac805",
+      "subnet-00fed29ba9393976a"
+    ]
+  },
+  "public_subnet-cidrblock": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "10.36.8.32/28",
+      "10.36.8.48/28"
+    ]
+  },
+  "public_subnet-id": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-0a743ce18da210574",
+      "subnet-0a9cda062f0c075d1"
+    ]
+  },
+  "route_table-private_internal_subnet-ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "rtb-0c83f2c518ae9a9c5"
+    ]
+  },
+  "route_table-private_internal_subnet-name": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "map",
+          "string"
+        ]
+      ]
+    ],
+    "value": [
+      {
+        "CostCenter": "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN",
+        "CostCenterId": "cc-b135766f-5855-4e92-a78c-0c03751c7b33",
+        "Environment": "pro",
+        "Name": "rt-vpcshared-int",
+        "ProjectId": "pid-7f1ae190-bfdf-4c7b-bb65-1a94ef5d970e",
+        "ServiceId": "sid-b4256304-b233-450b-bbe3-7664995f24a8"
+      }
+    ]
+  },
+  "route_table-private_subnet-ids-za": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "rtb-0453a49cba5c22121"
+    ]
+  },
+  "route_table-private_subnet-ids-zb": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "rtb-04af94838a535d25d"
+    ]
+  },
+  "route_table-public_bastion_subnet-ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "rtb-0dbeb7b25937fbf54"
+    ]
+  },
+  "route_table-public_subnet-ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string"
+      ]
+    ],
+    "value": [
+      "rtb-06a755816efd12dd7"
+    ]
+  },
+  "vpc_arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:ec2:us-east-1:619388543473:vpc/vpc-0a3c87b7864a7ccb4"
+  },
+  "vpc_cidr_block": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.36.8.0/23"
+  },
+  "vpc_cidr_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "vpcshared-hyk"
+  },
+  "vpc_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "vpc-0a3c87b7864a7ccb4"
+  }
+}
