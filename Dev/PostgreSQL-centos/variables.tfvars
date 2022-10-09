@@ -36,3 +36,7 @@ linux_distro = "centos8"
 
 #2 vcores y 4GB RAM
 InstanceType = "t3a.medium"
+
+# Add Stop/Start via cron Cloudwacht
+AutoStart = true
+AutoStop = true

@@ -96,3 +96,15 @@ variable "ami_id_filter" {
 variable "linux_distro" {
     type = string
 }
+
+variable "AutoStart" {
+  description = "Add Start via cron Cloudwacht"
+  type = bool
+  default = false
+}
+
+variable "AutoStop" {
+  description = "Add Stop via cron Cloudwacht"
+  type = bool
+  default = false
+}

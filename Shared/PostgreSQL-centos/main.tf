@@ -232,6 +232,8 @@ resource "aws_instance" "postgresql_server" {
     CostCenterId = var.CostCenterId
     ServiceId    = var.ServiceId
     ProjectId    = var.ProjectId
+    Auto-Start   = var.AutoStart
+    Auto-Stop    = var.AutoStop
   }
   /*probar despues para automatizar ssh desde ansible
   provisioner "remote-exec" {
