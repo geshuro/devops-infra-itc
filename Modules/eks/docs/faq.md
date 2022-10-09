@@ -1,146 +1,137 @@
 # Frequently Asked Questions
 
-## How do I customize X on the worker group's settings?
+- [I received an error: `expect exactly one securityGroup tagged with kubernetes.io/cluster/<NAME> ...`](https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/faq.md#i-received-an-error-expect-exactly-one-securitygroup-tagged-with-kubernetesioclustername-)
+- [I received an error: `Error: Invalid for_each argument ...`](https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/faq.md#i-received-an-error-error-invalid-for_each-argument-)
+- [Why are nodes not being registered?](https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/faq.md#why-are-nodes-not-being-registered)
+- [Why are there no changes when a node group's `desired_size` is modified?](https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/faq.md#why-are-there-no-changes-when-a-node-groups-desired_size-is-modified)
+- [How can I deploy Windows based nodes?](https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/faq.md#how-can-i-deploy-windows-based-nodes)
+- [How do I access compute resource attributes?](https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/docs/faq.md#how-do-i-access-compute-resource-attributes)
 
-All the options that can be customized for worker groups are listed in [local.tf](https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/local.tf) under `workers_group_defaults_defaults`.
+### I received an error: `expect exactly one securityGroup tagged with kubernetes.io/cluster/<NAME> ...`
 
-Please open Issues or PRs if you think something is missing.
+By default, EKS creates a cluster primary security group that is created outside of the module and the EKS service adds the tag `{ "kubernetes.io/cluster/<CLUSTER_NAME>" = "owned" }`. This on its own does not cause any conflicts for addons such as the AWS Load Balancer Controller until users decide to attach both the cluster primary security group and the shared node security group created by the module (by setting `attach_cluster_primary_security_group = true`). The issue is not with having multiple security groups in your account with this tag key:value combination, but having multiple security groups with this tag key:value combination attached to nodes in the same cluster. There are a few ways to resolve this depending on your use case/intentions:
 
-## Why are nodes not being registered?
+⚠️ `<CLUSTER_NAME>` below needs to be replaced with the name of your cluster
 
-### Networking
+1. If you want to use the cluster primary security group, you can disable the creation of the shared node security group with:
 
-Often caused by a networking or endpoint configuration issue.
-
-At least one of the cluster public or private endpoints must be enabled in order for access to the cluster to work.
-
-Nodes need to be able to contact the EKS cluster endpoint. By default the module only creates a public endpoint. To access this endpoint the nodes need outgoing internet access:
-- Nodes in private subnets: via a NAT gateway or instance. This will need adding along with appropriate routing rules.
-- Nodes in public subnets: assign public IPs to nodes. Set `public_ip = true` in the `worker_groups` list on this module.
-
-Cluster private endpoint can also be enabled by setting `cluster_endpoint_private_access = true` on this module. Node calls to the endpoint stay within the VPC.
-
-When the private endpoint is enabled ensure that VPC DNS resolution and hostnames are also enabled:
-- If managing the VPC with Terraform: set `enable_dns_hostnames = true` and `enable_dns_support = true` on the `aws_vpc` resource. The [`terraform-aws-module/vpc/aws`](https://github.com/terraform-aws-modules/terraform-aws-vpc/) community module also has these variables.
-- Otherwise refer to the [AWS VPC docs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating) and [AWS EKS Cluster Endpoint Access docs](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) for more information.
-
-Nodes need to be able to connect to other AWS services plus pull down container images from repos. If for some reason you cannot enable public internet access for nodes you can add VPC endpoints to the relevant services: EC2 API, ECR API, ECR DKR and S3.
-
-### `aws-auth` ConfigMap not present
-
-The module configures the `aws-auth` ConfigMap. This is used by the cluster to grant IAM users RBAC permissions in the cluster. Sometimes the map fails to apply correctly, especially if terraform could not access the cluster endpoint during cluster creation.
-
-Confirm that the ConfigMap matches the contents of the generated `config-map-aws-auth_${cluster_name}.yaml` file. You can retrieve the live config by running the following in your terraform folder:
-`kubectl --kubeconfig=kubeconfig_* -n kube-system get cm aws-auth -o yaml`
-
-Apply the config with:
-`kubectl --kubeconfig=kubeconfig_* apply -f config-map-aws-auth_*.yaml`
-
-## How can I work with the cluster if I disable the public endpoint?
-
-You have to interact with the cluster from within the VPC that it's associated with, from an instance that's allowed access via the cluster's security group.
-
-Creating a new cluster with the public endpoint disabled is harder to achieve. You will either want to pass in a pre-configured cluster security group or apply the `aws-auth` configmap in a separate action.
-
-## How can I stop Terraform from removing the EKS tags from my VPC and subnets?
-
-You need to add the tags to the VPC and subnets yourself. See the [basic example](https://github.com/terraform-aws-modules/terraform-aws-eks/tree/master/examples/basic).
-
-## How do I safely remove old worker groups?
-
-You've added new worker groups. Deleting worker groups from earlier in the list causes Terraform to want to recreate all worker groups. This is a limitation with how Terraform works and the module using `count` to create the ASGs and other resources.
-
-The safest and easiest option is to set `asg_min_size` and `asg_max_size` to 0 on the worker groups to "remove".
-
-## Why does changing the worker group's desired count not do anything?
-
-The module is configured to ignore this value. Unfortunately Terraform does not support variables within the `lifecycle` block.
-
-The setting is ignored to allow the cluster autoscaler to work correctly and so that terraform apply does not accidentally remove running workers.
-
-You can change the desired count via the CLI or console if you're not using the cluster autoscaler.
-
-If you are not using autoscaling and really want to control the number of nodes via terraform then set the `asg_min_size` and `asg_max_size` instead. AWS will remove a random instance when you scale down. You will have to weigh the risks here.
-
-## Why are nodes not recreated when the `launch_configuration`/`launch_template` is recreated?
-
-By default the ASG is not configured to be recreated when the launch configuration or template changes. Terraform spins up new instances and then deletes all the old instances in one go as the AWS provider team have refused to implement rolling updates of autoscaling groups. This is not good for kubernetes stability.
-
-You need to use a process to drain and cycle the workers.
-
-You are not using the cluster autoscaler:
-- Add a new instance
-- Drain an old node `kubectl drain --force --ignore-daemonsets --delete-local-data ip-xxxxxxx.eu-west-1.compute.internal`
-- Wait for pods to be Running
-- Terminate the old node instance. ASG will start a new instance
-- Repeat the drain and delete process until all old nodes are replaced
-
-You are using the cluster autoscaler:
-- Drain an old node `kubectl drain --force --ignore-daemonsets --delete-local-data ip-xxxxxxx.eu-west-1.compute.internal`
-- Wait for pods to be Running
-- Cluster autoscaler will create new nodes when required
-- Repeat until all old nodes are drained
-- Cluster autoscaler will terminate the old nodes after 10-60 minutes automatically
-
-Alternatively you can set the `asg_recreate_on_change = true` worker group option to get the ASG recreated after changes to the launch configuration or template. But be aware of the risks to cluster stability mentioned above.
-
-## `aws_auth.tf: At 2:14: Unknown token: 2:14 IDENT`
-
-You are attempting to use a Terraform 0.12 module with Terraform 0.11.
-
-We highly recommend that you upgrade your EKS Terraform config to 0.12 to take advantage of new features in the module.
-
-Alternatively you can lock your module to a compatible version if you must stay with terraform 0.11:
 ```hcl
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 4.0"
-  # ...
+  create_node_security_group            = false # default is true
+  attach_cluster_primary_security_group = true # default is false
+```
+
+2. If you want to use the cluster primary security group, you can disable the tag passed to the node security group by overriding the tag expected value like:
+
+```hcl
+  attach_cluster_primary_security_group = true # default is false
+
+  node_security_group_tags = {
+    "kubernetes.io/cluster/<CLUSTER_NAME>" = "" # or any other value other than "owned"
+  }
+```
+
+3. By overriding the tag expected value on the cluster primary security group like:
+
+```hcl
+  attach_cluster_primary_security_group = true # default is false
+
+  cluster_tags = {
+    "kubernetes.io/cluster/<CLUSTER_NAME>" = "" # or any other value other than "owned"
+  }
+```
+
+4. By not attaching the cluster primary security group. The cluster primary security group has quite broad access and the module has instead provided a security group with the minimum amount of access to launch an empty EKS cluster successfully and users are encouraged to open up access when necessary to support their workload.
+
+```hcl
+  attach_cluster_primary_security_group = false # this is the default for the module
+```
+
+In theory, if you are attaching the cluster primary security group, you shouldn't need to use the shared node security group created by the module. However, this is left up to users to decide for their requirements and use case.
+
+### I received an error: `Error: Invalid for_each argument ...`
+
+Users may encounter an error such as `Error: Invalid for_each argument - The "for_each" value depends on resource attributes that cannot be determined until apply, so Terraform cannot predict how many instances will be created. To work around this, use the -target argument to first apply ...`
+
+This error is due to an upstream issue with [Terraform core](https://github.com/hashicorp/terraform/issues/4149). There are two potential options you can take to help mitigate this issue:
+
+1. Create the dependent resources before the cluster => `terraform apply -target <your policy or your security group>` and then `terraform apply` for the cluster (or other similar means to just ensure the referenced resources exist before creating the cluster)
+
+- Note: this is the route users will have to take for adding additional security groups to nodes since there isn't a separate "security group attachment" resource
+
+2. For additional IAM policies, users can attach the policies outside of the cluster definition as demonstrated below
+
+```hcl
+resource "aws_iam_role_policy_attachment" "additional" {
+  for_each = module.eks.eks_managed_node_groups
+  # you could also do the following or any combination:
+  # for_each = merge(
+  #   module.eks.eks_managed_node_groups,
+  #   module.eks.self_managed_node_group,
+  #   module.eks.fargate_profile,
+  # )
+
+  #            This policy does not have to exist at the time of cluster creation. Terraform can
+  #            deduce the proper order of its creation to avoid errors during creation
+  policy_arn = aws_iam_policy.node_additional.arn
+  role       = each.value.iam_role_name
 }
 ```
 
-## How can I use Windows workers?
+TL;DR - Terraform resource passed into the modules map definition _must_ be known before you can apply the EKS module. The variables this potentially affects are:
 
-To enable Windows support for your EKS cluster, you should apply some configs manually. See the [Enabling Windows Support (Windows/MacOS/Linux)](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html#enable-windows-support).
+- `cluster_security_group_additional_rules` (i.e. - referencing an external security group resource in a rule)
+- `node_security_group_additional_rules` (i.e. - referencing an external security group resource in a rule)
+- `iam_role_additional_policies` (i.e. - referencing an external policy resource)
 
-Windows worker nodes requires additional cluster role (eks:kube-proxy-windows). If you are adding windows workers to existing cluster, you should apply config-map-aws-auth again.
+### Why are nodes not being registered?
 
-#### Example configuration
+Nodes not being able to register with the EKS control plane is generally due to networking mis-configurations.
 
-Amazon EKS clusters must contain one or more Linux worker nodes to run core system pods that only run on Linux, such as coredns and the VPC resource controller.
+1. At least one of the cluster endpoints (public or private) must be enabled.
 
-1. Build AWS EKS cluster with the next workers configuration (default Linux):
+If you require a public endpoint, setting up both (public and private) and restricting the public endpoint via setting `cluster_endpoint_public_access_cidrs` is recommended. More info regarding communication with an endpoint is available [here](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html).
 
+2. Nodes need to be able to contact the EKS cluster endpoint. By default, the module only creates a public endpoint. To access the endpoint, the nodes need outgoing internet access:
+
+- Nodes in private subnets: via a NAT gateway or instance along with the appropriate routing rules
+- Nodes in public subnets: ensure that nodes are launched with public IPs (enable through either the module here or your subnet setting defaults)
+
+**Important: If you apply only the public endpoint and configure the `cluster_endpoint_public_access_cidrs` to restrict access, know that EKS nodes will also use the public endpoint and you must allow access to the endpoint. If not, then your nodes will fail to work correctly.**
+
+3. The private endpoint can also be enabled by setting `cluster_endpoint_private_access = true`. Ensure that VPC DNS resolution and hostnames are also enabled for your VPC when the private endpoint is enabled.
+
+4. Nodes need to be able to connect to other AWS services to function (download container images, make API calls to assume roles, etc.). If for some reason you cannot enable public internet access for nodes you can add VPC endpoints to the relevant services: EC2 API, ECR API, ECR DKR and S3.
+
+### Why are there no changes when a node group's `desired_size` is modified?
+
+The module is configured to ignore this value. Unfortunately, Terraform does not support variables within the `lifecycle` block. The setting is ignored to allow autoscaling via controllers such as cluster autoscaler or Karpenter to work properly and without interference by Terraform. Changing the desired count must be handled outside of Terraform once the node group is created.
+
+### How can I deploy Windows based nodes?
+
+To enable Windows support for your EKS cluster, you will need to apply some configuration manually. See the [Enabling Windows Support (Windows/MacOS/Linux)](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html#enable-windows-support).
+
+In addition, Windows based nodes require an additional cluster RBAC role (`eks:kube-proxy-windows`).
+
+Note: Windows based node support is limited to a default user data template that is provided due to the lack of Windows support and manual steps required to provision Windows based EKS nodes.
+
+### How do I access compute resource attributes?
+
+Examples of accessing the attributes of the compute resource(s) created by the root module are shown below. Note - the assumption is that your cluster module definition is named `eks` as in `module "eks" { ... }`:
+
+- EKS Managed Node Group attributes
+
+```hcl
+eks_managed_role_arns = [for group in module.eks_managed_node_group : group.iam_role_arn]
+````
+
+- Self Managed Node Group attributes
+
+```hcl
+self_managed_role_arns = [for group in module.self_managed_node_group : group.iam_role_arn]
 ```
-worker_groups = [
-    {
-      name                          = "worker-group-linux"
-      instance_type                 = "m5.large"
-      platform                      = "linux"
-      asg_desired_capacity          = 2
-    },    
-  ]
+
+- Fargate Profile attributes
+
+```hcl
+fargate_profile_pod_execution_role_arns = [for group in module.fargate_profile : group.fargate_profile_pod_execution_role_arn]
 ```
-
-2. Apply commands from https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html#enable-windows-support (use tab with name `Windows`) 
-
-3. Add one more worker group for Windows with required field `platform = "windows"` and update your cluster. Worker group example:
-
-```
-worker_groups = [
-    {
-      name                          = "worker-group-linux"
-      instance_type                 = "m5.large"
-      platform                      = "linux"
-      asg_desired_capacity          = 2
-    },
-    {
-      name                          = "worker-group-windows"
-      instance_type                 = "m5.large"
-      platform                      = "windows"
-      asg_desired_capacity          = 1
-    },
-  ]
-```
-
-4. Wtih `kubectl get nodes` you can see cluster with mixed (Linux/Windows) nodes support.

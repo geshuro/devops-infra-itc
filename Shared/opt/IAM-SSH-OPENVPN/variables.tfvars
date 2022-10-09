@@ -1,8 +1,8 @@
 CostCenter = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 ProjectId = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 ServiceId = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
-stage = "dev"
+stage = "Shared"
 ssh_public_key_path = "./secret"
 generate_ssh_key = true
-Environment = "dev"
+Environment = "Shared"
 groups = ["ssh"]

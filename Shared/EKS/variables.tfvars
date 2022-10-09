@@ -1,17 +1,12 @@
-region  = "us-east-1"
+region  = "eu-west-1"
 
 project = "integracam"
-
-node_groups_defaults = {
-  ami_type  = "AL2_x86_64"
-  disk_size = 50
-}
 
 cluster_version = "1.23"
 
 #instance_type = "m5.large"
 #2 cpu 8gb
-instance_type = "t3a.large"
+instance_type = "t3a.large" 
 
 desired_capacity = 1
 
@@ -23,7 +18,7 @@ min_size = 1
 Owner = "isaac.mendoza.external@atos.net"
 
 # Tipo de entorno (dev, test, pre, pro)
-Environment = "dev"
+Environment = "shared"
 
 # Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos
 CostCenter = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
@@ -42,16 +37,16 @@ ProjectId = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 
 
 # Backend S3 of remote state for terraform
-BackendS3 = "s3-devsysops-841131224287-us-east-1-bvvy"
+BackendS3 = "s3-devsysops-841131224287-eu-west-1-jjci"
 
 # Backend DynamoDB of remote state for terraform
-BackendDynamoDB = "tf-up-and-running-locks-us-east-1-bvvy"
+BackendDynamoDB = "tf-up-and-running-locks-eu-west-1-jjci"
 
 # Backend region of remote state for terraform
-BackendRegion = "us-east-1"
+BackendRegion = "eu-west-1"
 
 # Backend profile of remote state for terraform
-BackendProfile = "atos-integracam-tf-desarrollo"
+BackendProfile = "atos-integracam-tf-desarrollo-ireland"
 
 map_users = [
     {

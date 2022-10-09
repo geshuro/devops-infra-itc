@@ -1,6 +1,6 @@
 #!/bin/sh
 # Setting Time Zome
-timedatectl set-timezone America/Madrid
+timedatectl set-timezone Europe/Madrid
 # Actualizar instance
 apt upgrade && apt update
 # Configurar agent cloudwatch
@@ -78,3 +78,9 @@ usermod -aG docker ubuntu
 curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/aws-iam-authenticator
 chmod +x ./aws-iam-authenticator
 mv aws-iam-authenticator /usr/bin/
+
+#  - aws -cliente
+apt install -y unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install

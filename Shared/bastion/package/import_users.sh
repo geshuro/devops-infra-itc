@@ -169,7 +169,7 @@ function create_or_update_local_user() {
     localusergroups="${LOCAL_MARKER_GROUP}"
 
     # check that username contains only alphanumeric, period (.), underscore (_), and hyphen (-) for a safe eval
-    if [[ ! "${username}" =~ ^[0-9a-zA-Z\._\-]{1,32}$ ]]
+    if [[ ! "${username}" =~ ^[0-9a-zA-Z\._\-]{1,100}$ ]]
     then
         log "Local user name ${username} contains illegal characters"
         exit 1
@@ -279,11 +279,11 @@ function sync_accounts() {
 
     # Add or update the users found in IAM
     for user in ${iam_users}; do
-        if [ "${#user}" -le "32" ]
+        if [ "${#user}" -le "100" ]
         then
             create_or_update_local_user "${user}" "$sudo_users"
         else
-            log "Can not import IAM user ${user}. User name is longer than 32 characters."
+            log "Can not import IAM user ${user}. User name is longer than 100 characters."
         fi
     done
 

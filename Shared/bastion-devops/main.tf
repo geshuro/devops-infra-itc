@@ -460,7 +460,6 @@ module "ec2" {
 }
 /* imendozah
 resource "aws_route53_record" "host-variable" {
-  #count = var.zone_name == "" ? 0 : 1  
   zone_id = data.terraform_remote_state.networking.outputs.internal_service_domain_id[0]
   name    = module.label_this.id
   type    = "A"
@@ -469,16 +468,17 @@ resource "aws_route53_record" "host-variable" {
 }
 
 resource "aws_route53_record" "host" {
-  #count = var.zone_name == "" ? 0 : 1  
   zone_id = data.terraform_remote_state.networking.outputs.internal_service_domain_id[0]
-  name    = "${var.stage}-${var.name}"
+  name    = "${var.stage}-${var.name}-${module.label_this.id}"
   type    = "CNAME"
   ttl     = "60"
   records = ["${module.label_this.id}.${data.terraform_remote_state.networking.outputs.internal_service_domain}"]
 }*/
 
-
-
-
-
-
+resource "aws_route53_record" "host-bastion-devops" {
+  zone_id = data.terraform_remote_state.networking.outputs.internal_service_domain_id[0]
+  name    = "${var.stage}-${var.name}.${data.terraform_remote_state.networking.outputs.internal_service_domain}"
+  type    = "A"
+  ttl     = "60"
+  records = module.ec2.private_ip
+}

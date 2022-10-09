@@ -156,7 +156,7 @@ variable "cronweekenddown" {
     end_time   = string
   })
   default = {
-    cron       = "0 1 * * SAT"
+    cron       = "0 3 * * SAT"
     start_time = "2022-06-19T18:00:30Z"
     end_time   = "2030-06-19T18:00:30Z"
   }

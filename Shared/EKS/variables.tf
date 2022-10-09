@@ -86,11 +86,9 @@ variable "min_size" {
 }
 
 variable "node_groups_defaults" {
-  type        = object({
-    ami_type  = string
-    disk_size = number
-  })
-  description = "Default value for the Node Groups, please configured as pleased"
+  description = "Map of EKS managed node group default configurations"
+  type        = any
+  default     = {}
 }
 ################################################################################
 variable "Owner" {
