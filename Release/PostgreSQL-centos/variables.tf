@@ -10,9 +10,15 @@ variable "Environment" {
   #default     = "dev"
 }
 
+variable "EnvironmentShared" {
+  type        = string
+  description = "Tipo de entorno (dev, test, pre, pro)"
+  #default     = "shared"
+}
+
 variable "CostCenter" {
   type        = string
-  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Indra"
+  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos"
   #default     = "TTAA"
 }
 
@@ -46,12 +52,6 @@ variable "Instances" {
   #default     = 3
 }
 
-variable "InternalDomain" {
-  type        = string
-  description = "Internal domain of cloud infraestructure"
-  #default     = "sunat-cuc.int"
-}
-
 variable "BackendS3" {
   type        = string
   description = "Backend S3 of remote state for terraform"
@@ -74,12 +74,6 @@ variable "BackendProfile" {
   type        = string
   description = "Backend profile of remote state for terraform"
   #default     = "sunat-cuc"
-}
-
-variable "ZoneIdRoute53" {
-  type        = string
-  description = "Zone id of Route53"
-  #default     = "Z069789436OB6UDXPKED6"
 }
 
 variable "ami_id_filter" {

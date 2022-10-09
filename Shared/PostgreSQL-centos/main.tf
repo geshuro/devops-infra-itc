@@ -11,25 +11,12 @@ data "terraform_remote_state" "networking" {
   workspace = "networking"
 }
 
-data "terraform_remote_state" "networking-shared" {
-  backend = "s3"
-  config = {
-    profile        = var.BackendProfile
-    bucket         = var.BackendS3
-    key            = "terraform/shared"
-    region         = var.BackendRegion
-    encrypt        = true
-    dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
-  }
-  workspace = "networking"
-}
-
 data "terraform_remote_state" "bastion" {
   backend = "s3"
   config = {
     profile        = var.BackendProfile
     bucket         = var.BackendS3
-    key            = "terraform/shared"
+    key            = "terraform/${var.Environment}"
     region         = var.BackendRegion
     encrypt        = true
     dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
@@ -42,7 +29,7 @@ data "terraform_remote_state" "bastion-devops" {
   config = {
     profile        = var.BackendProfile
     bucket         = var.BackendS3
-    key            = "terraform/shared"
+    key            = "terraform/${var.Environment}"
     region         = var.BackendRegion
     encrypt        = true
     dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
@@ -269,8 +256,8 @@ resource "aws_instance" "postgresql_server" {
 
 resource "aws_route53_record" "postgresql_private_dns" {
   count   = var.Instances
-  zone_id = data.terraform_remote_state.networking-shared.outputs.internal_service_domain_id[0]
-  name    = "${var.Environment}-postgresql.${data.terraform_remote_state.networking-shared.outputs.internal_service_domain}"
+  zone_id = data.terraform_remote_state.networking.outputs.internal_service_domain_id[0]
+  name    = "${var.Environment}-postgresql.${data.terraform_remote_state.networking.outputs.internal_service_domain}"
   type    = "A"
   ttl     = "60"
   records = [element(aws_instance.postgresql_server.*.private_ip, count.index)]

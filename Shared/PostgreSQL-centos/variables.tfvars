@@ -2,8 +2,8 @@
 Owner = "isaac.mendoza.external@atos.net"
 
 # Tipo de entorno (dev, test, pre, pro)
-Environment = "release"
-EnvironmentShared = "shared"
+Environment = "shared"
+
 # Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos
 CostCenter = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 

@@ -10,15 +10,9 @@ variable "Environment" {
   #default     = "dev"
 }
 
-variable "EnvironmentShared" {
-  type        = string
-  description = "Tipo de entorno (dev, test, pre, pro)"
-  #default     = "shared"
-}
-
 variable "CostCenter" {
   type        = string
-  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos"
+  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Indra"
   #default     = "TTAA"
 }
 
