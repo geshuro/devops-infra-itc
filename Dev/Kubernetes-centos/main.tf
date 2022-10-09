@@ -11,12 +11,25 @@ data "terraform_remote_state" "networking" {
   workspace = "networking"
 }
 
+data "terraform_remote_state" "networking-shared" {
+  backend = "s3"
+  config = {
+    profile        = var.BackendProfile
+    bucket         = var.BackendS3
+    key            = "terraform/shared"
+    region         = var.BackendRegion
+    encrypt        = true
+    dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
+  }
+  workspace = "networking"
+}
+
 data "terraform_remote_state" "bastion" {
   backend = "s3"
   config = {
     profile        = var.BackendProfile
     bucket         = var.BackendS3
-    key            = "terraform/${var.Environment}"
+    key            = "terraform/shared"
     region         = var.BackendRegion
     encrypt        = true
     dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
@@ -29,7 +42,7 @@ data "terraform_remote_state" "bastion-devops" {
   config = {
     profile        = var.BackendProfile
     bucket         = var.BackendS3
-    key            = "terraform/${var.Environment}"
+    key            = "terraform/shared"
     region         = var.BackendRegion
     encrypt        = true
     dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
@@ -226,15 +239,6 @@ resource "aws_instance" "kubernetes_server" {
   #user_data = data.template_cloudinit_config.kubernetes_configuration[count.index].rendered
 }
 
-resource "aws_route53_record" "kubernetes_private_dns" {
-  count   = var.KubernetesInstances
-  zone_id = var.ZoneIdRoute53
-  name    = "${var.Environment}-kubernetes-${count.index}-${random_string.random.result}.${var.InternalDomain}"
-  type    = "A"
-  ttl     = "60"
-  records = [element(aws_instance.kubernetes_server.*.private_ip, count.index)]
-}
-
 resource "aws_ebs_volume" "kubernetes_ebs" {
   count             = var.KubernetesInstances
   availability_zone = var.AvailabilityZoneEBS
@@ -250,4 +254,13 @@ resource "aws_volume_attachment" "kubernetes_ebs" {
   device_name = "/dev/sdb"
   volume_id   = element(aws_ebs_volume.kubernetes_ebs.*.id, count.index)
   instance_id = element(aws_instance.kubernetes_server.*.id, count.index)
+}
+
+resource "aws_route53_record" "kubernetes_private_dns" {
+  count   = var.KubernetesInstances
+  zone_id = data.terraform_remote_state.networking-shared.outputs.internal_service_domain_id[0]
+  name    = "${var.Environment}-k8s-${count.index}.${data.terraform_remote_state.networking-shared.outputs.internal_service_domain}"
+  type    = "A"
+  ttl     = "60"
+  records = [element(aws_instance.kubernetes_server.*.private_ip, count.index)]
 }

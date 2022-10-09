@@ -1,10 +1,10 @@
 # User id of AWS account
-Owner = "imendoza-atos"
+Owner = "isaac.mendoza.external@atos.net"
 
 # Tipo de entorno (dev, test, pre, pro)
-Environment = "dev"
-
-# Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Indra
+Environment = "release"
+EnvironmentShared = "shared"
+# Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos
 CostCenter = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 
 # Centro de coste aplicado a la cuenta, servicio o proyecto provisto por uuid 4
@@ -19,23 +19,17 @@ ProjectId = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 # Number of instances of Kubernetes
 KubernetesInstances = 2
 
-# Internal domain of cloud infraestructure
-InternalDomain = "integracam.int"
-
 # Backend S3 of remote state for terraform
-BackendS3 = "s3-devsysops-841131224287-us-east-1-bvvy"
+BackendS3 = "s3-devsysops-841131224287-eu-west-1-jjci"
 
 # Backend DynamoDB of remote state for terraform
-BackendDynamoDB = "tf-up-and-running-locks-us-east-1-bvvy"
+BackendDynamoDB = "tf-up-and-running-locks-eu-west-1-jjci"
 
 # Backend region of remote state for terraform
-BackendRegion = "us-east-1"
+BackendRegion = "eu-west-1"
 
 # Backend profile of remote state for terraform
 BackendProfile = "atos-integracam-tf-desarrollo"
-
-# Zone id of Route53
-ZoneIdRoute53 = "Z083667737ZSMKCBP9ZPT"
 
 #Distribution linux
 linux_distro = "centos8"
@@ -45,7 +39,7 @@ linux_distro = "centos8"
 DiskSizeKubernetesDataEBS = 54
 #2 vcores y 4GB RAM
 KubernetesInstanceType = "t2.medium"
-AvailabilityZoneEBS = "us-east-1a"
+AvailabilityZoneEBS = "eu-west-1a"
 
 # Add Stop/Start via cron Cloudwacht
 AutoStart = true
