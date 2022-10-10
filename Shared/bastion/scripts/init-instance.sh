@@ -10,4 +10,3 @@ aws ec2 associate-address --instance-id $(curl http://169.254.169.254/latest/met
 yum update -y
 # Download script de descarga
 # Cargar y lanzar
-

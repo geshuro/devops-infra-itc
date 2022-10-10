@@ -19,7 +19,8 @@ PUBLICIP=$(curl -s ifconfig.me)
 DNS=current
 FIREWALL=no
 CLIENT=
-s3devsysops=$(aws s3 ls | grep "s3-devsysops" | cut -d " " -f 3)
+#s3devsysops=$(aws s3 ls | grep "s3-devsysops" | cut -d " " -f 3)
+s3devsysops=$S3DEVOPS
 
 if [ "-a" == "$1" -o "-r" == "$1" ]; then
 CLIENT=$2

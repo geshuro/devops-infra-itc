@@ -463,7 +463,7 @@ resource "aws_s3_bucket_object" "filemanageopenvpn" {
 
 
 resource "aws_launch_configuration" "bastion" {
-  name_prefix                 = "${module.label-asg-bastion.id}-"
+  name_prefix                 = "${module.label-asg-bastion.id}-v2-"
   image_id                    = data.aws_ami.amazon-linux-2.id
   instance_type               = var.instance_type
   key_name                    = module.aws_key_pair.key_name
@@ -485,7 +485,7 @@ resource "aws_launch_configuration" "bastion" {
                 # Associar EIP
                 aws ec2 wait instance-running --instance-id $(curl http:\/\/169.254.169.254/latest/meta-data/instance-id)
                 aws ec2 associate-address --instance-id $(curl http:\/\/169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.eip_bastion.id} --allow-reassociation
-                s3devsysops=$(aws s3 ls | grep "s3-devsysops" | grep "${data.aws_region.current.name}"| cut -d " " -f 3)
+                s3devsysops=$(aws s3 ls | grep "${var.s3devops}" | grep "${data.aws_region.current.name}"| cut -d " " -f 3)
                 # Actualizar sistema
                 yum update -y
                 # Instalar docker
@@ -514,9 +514,11 @@ resource "aws_launch_configuration" "bastion" {
                 amazon-linux-extras install -y epel
                 mkdir -p /opt/openvpn
                 echo "export NETWORK=${data.terraform_remote_state.networking.outputs.vpc_cidr_block}" > /opt/openvpn/environment.sh
+                echo "export S3DEVOPS=${var.s3devops}" > /opt/openvpn/environment.sh                
                 chmod +x /opt/openvpn/environment.sh
                 'cp' -f /opt/openvpn/environment.sh /etc/profile.d/
                 export "NETWORK=${data.terraform_remote_state.networking.outputs.vpc_cidr_block}"
+                export "S3DEVOPS=${var.s3devops}"
                 aws s3 cp s3://$s3devsysops/sysops/bastion/openvpn/manage-openvpn.sh /opt/openvpn/
                 chmod +x /opt/openvpn/manage-openvpn.sh
                 /opt/openvpn/manage-openvpn.sh -i
