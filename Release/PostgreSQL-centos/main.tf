@@ -178,6 +178,26 @@ resource "aws_security_group_rule" "bastion_to_postgresql_ssh" {
   description = "postgresql ssh communication from Bastion DevOps"
 }
 
+resource "aws_security_group_rule" "bastion_to_postgresql_pgbouncer" {
+  type              = "ingress"
+  from_port         = 6432
+  to_port           = 6432
+  protocol          = local.protocol_tcp
+  source_security_group_id  = data.terraform_remote_state.bastion.outputs.bastion_sg_id
+  security_group_id = aws_security_group.postgresql_access.id
+  description = "postgresql pgbouncer communication from Bastion Shared"
+}
+
+resource "aws_security_group_rule" "bastion_devops_to_postgresql_pgbouncer" {
+  type              = "ingress"
+  from_port         = 6432
+  to_port           = 6432
+  protocol          = local.protocol_tcp
+  source_security_group_id  = data.terraform_remote_state.bastion-devops.outputs.security_group_id
+  security_group_id = aws_security_group.postgresql_access.id
+  description = "postgresql pgbouncer communication from Bastion DevOps"
+}
+
 resource "aws_security_group_rule" "bastion_to_postgresql_master" {
   type              = "ingress"
   from_port         = local.postgresql_read_write_port
