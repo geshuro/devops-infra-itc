@@ -128,7 +128,7 @@ resource "aws_iam_role_policy" "this_logs_put_events" {
 resource "aws_iam_role" "this" {
   count = var.custom_iam_role_arn == null ? 1 : 0
 
-  name = "${var.name}IamRole"
+  name_prefix = "${var.name}IamRole"
   tags = var.tags
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
