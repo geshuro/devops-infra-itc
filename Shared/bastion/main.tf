@@ -514,7 +514,7 @@ resource "aws_launch_configuration" "bastion" {
                 amazon-linux-extras install -y epel
                 mkdir -p /opt/openvpn
                 echo "export NETWORK=${data.terraform_remote_state.networking.outputs.vpc_cidr_block}" > /opt/openvpn/environment.sh
-                echo "export S3DEVOPS=${var.s3devops}" > /opt/openvpn/environment.sh                
+                echo "export S3DEVOPS=${var.s3devops}" >> /opt/openvpn/environment.sh                
                 chmod +x /opt/openvpn/environment.sh
                 'cp' -f /opt/openvpn/environment.sh /etc/profile.d/
                 export "NETWORK=${data.terraform_remote_state.networking.outputs.vpc_cidr_block}"
