@@ -1,7 +1,7 @@
 module "stop_ec2_instances" {
   source              = "../../Modules/aws-lambda-auto-start-stop-ec2-instances"
   name                = "StopEc2Instances"
-  schedule_expression = "cron(0 17 ? * MON-FRI *)"
+  schedule_expression = "cron(0 20 ? * MON-FRI *)"
   action              = "stop"
   tags                = { "custom:tag" : "someValue" }
   lookup_resource_tag = {
