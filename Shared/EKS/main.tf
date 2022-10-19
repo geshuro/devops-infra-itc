@@ -85,7 +85,14 @@ module "eks" {
     vpc-cni = {
       resolve_conflicts = "OVERWRITE"
     }*/
-    aws-ebs-csi-driver = {}
+    aws-ebs-csi-driver = {
+      service_account_role_arn = "arn:aws:iam::841131224287:role/AmazonEKS_EBS_CSI_DriverRole"
+      /* Rol que contiene politica administrada de AWS llamada AmazonEBSCSIDriverPolicy
+         En este caso se este rol se creo utilizando comandos eksctl, y se seteo en duro 
+         para que terraform en las siguientes apply no desenlance del addons
+         Lo correcto es crear el Rol aqui en terraform y asignar a esta variable.
+      */
+    }
   }
   
   # Encryption key
@@ -150,7 +157,7 @@ module "eks" {
       desired_size = 2
 
       instance_types = ["t3.large"]
-      capacity_type  = "SPOT"
+      capacity_type  = "ON_DEMAND"
       labels = {
         Environment = var.Environment
       }
