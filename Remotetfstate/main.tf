@@ -41,6 +41,7 @@ resource "aws_s3_bucket" "terraform-state-storage-s3" {
 
 resource "aws_dynamodb_table" "terraform-locks" {
   name           = "tf-up-and-running-locks-${data.aws_region.current.name}-${random_string.random.result}"
+  
   #deprecado read_capacity  = 2
   #deprecado write_capacity = 2
   billing_mode   = "PAY_PER_REQUEST"
