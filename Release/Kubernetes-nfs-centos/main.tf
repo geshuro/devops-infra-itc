@@ -24,6 +24,19 @@ data "terraform_remote_state" "kubernetes" {
   workspace = "kubernetes"
 }
 
+data "terraform_remote_state" "eks-shared" {
+  backend = "s3"
+  config = {
+    profile        = var.BackendProfile
+    bucket         = var.BackendS3
+    key            = "terraform/shared"
+    region         = var.BackendRegion
+    encrypt        = true
+    dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
+  }
+  workspace = "eks-devops"
+}
+
 data "terraform_remote_state" "networking-shared" {
   backend = "s3"
   config = {
@@ -209,6 +222,16 @@ resource "aws_security_group_rule" "k8s_to_nfs" {
   source_security_group_id  = element(data.terraform_remote_state.kubernetes.outputs.server_security_group_id, 0)
   security_group_id = aws_security_group.access.id
   description = "NFS communication from K8s"
+}
+
+resource "aws_security_group_rule" "eks_devops_to_nfs" {
+  type              = "ingress"
+  from_port         = local.nfs_port
+  to_port           = local.nfs_port
+  protocol          = local.protocol_tcp
+  source_security_group_id  = data.terraform_remote_state.eks-shared.outputs.cluster_security_group_id
+  security_group_id = aws_security_group.access.id
+  description = "NFS communication from EKS DevOps"
 }
 
 resource "aws_instance" "server" {
