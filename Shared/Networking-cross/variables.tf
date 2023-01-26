@@ -62,6 +62,11 @@ variable "releasekeybackend" {
   description = "Path del backend"
   #default     = "apimicroservice"
 }
+variable "prokeybackend" {
+  type        = string
+  description = "Path del backend"
+  #default     = "apimicroservice"
+}
 variable "Encryptacionbackend" {
   type        = bool
   description = "Estado de la encriptacion del backend"
