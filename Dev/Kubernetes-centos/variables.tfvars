@@ -29,7 +29,7 @@ BackendDynamoDB = "tf-up-and-running-locks-eu-west-1-jjci"
 BackendRegion = "eu-west-1"
 
 # Backend profile of remote state for terraform
-BackendProfile = "atos-integracam-tf-desarrollo"
+BackendProfile = "atos-integracam-tf-desarrollo-ireland"
 
 #Distribution linux
 linux_distro = "centos8"
