@@ -50,6 +50,19 @@ data "terraform_remote_state" "bastion-devops" {
   workspace = "bastion-devops"
 }
 
+data "terraform_remote_state" "loadbalancer-shared" {
+  backend = "s3"
+  config = {
+    profile        = var.BackendProfile
+    bucket         = var.BackendS3
+    key            = "terraform/shared"
+    region         = var.BackendRegion
+    encrypt        = true
+    dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
+  }
+  workspace = "loadbalancer"
+}
+
 data "aws_ami" "linux_ami" {
   most_recent = true
   owners = [element(split(";", var.ami_id_filter[var.linux_distro]), 1)]
@@ -216,6 +229,16 @@ resource "aws_security_group_rule" "bastion_to_kubernetes_nodeports" {
   source_security_group_id  = data.terraform_remote_state.bastion.outputs.bastion_sg_id
   security_group_id = aws_security_group.kubernetes_access.id
   description = "ALL NodePort from Bastion"
+}
+
+resource "aws_security_group_rule" "loadbalancer_to_kubernetes_nodeports" {
+  type              = "ingress"
+  from_port         = 30000
+  to_port           = 32767
+  protocol          = local.protocol_tcp
+  source_security_group_id  = element(data.terraform_remote_state.loadbalancer-shared.outputs.server_security_group_id, 0)
+  security_group_id = aws_security_group.kubernetes_access.id
+  description = "ALL NodePort from Loadbalancer"
 }
 
 resource "aws_instance" "kubernetes_server" {
