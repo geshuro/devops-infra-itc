@@ -198,6 +198,26 @@ resource "aws_security_group_rule" "kubernetes_all_self" {
   description = "ALL port communication from Kubernetes"
 }
 
+resource "aws_security_group_rule" "bastion_to_kubernetes_kubectl" {
+  type              = "ingress"
+  from_port         = 6443
+  to_port           = 6443
+  protocol          = local.protocol_tcp
+  source_security_group_id  = data.terraform_remote_state.bastion.outputs.bastion_sg_id
+  security_group_id = aws_security_group.kubernetes_access.id
+  description = "Kubernetes kubectl communication from Bastion "
+}
+
+resource "aws_security_group_rule" "bastion_to_kubernetes_nodeports" {
+  type              = "ingress"
+  from_port         = 30000
+  to_port           = 32767
+  protocol          = local.protocol_tcp
+  source_security_group_id  = data.terraform_remote_state.bastion.outputs.bastion_sg_id
+  security_group_id = aws_security_group.kubernetes_access.id
+  description = "ALL NodePort from Bastion"
+}
+
 resource "aws_instance" "kubernetes_server" {
   count                       = var.KubernetesInstances
   ami                         = data.aws_ami.linux_ami.id
