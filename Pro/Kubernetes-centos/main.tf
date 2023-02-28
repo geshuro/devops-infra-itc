@@ -241,6 +241,26 @@ resource "aws_security_group_rule" "loadbalancer_to_kubernetes_nodeports" {
   description = "ALL NodePort from Loadbalancer"
 }
 
+resource "aws_security_group_rule" "bastion-devops_to_kubernetes_kubectl" {
+  type              = "ingress"
+  from_port         = 6443
+  to_port           = 6443
+  protocol          = local.protocol_tcp
+  source_security_group_id  = data.terraform_remote_state.bastion-devops.outputs.security_group_id
+  security_group_id = aws_security_group.kubernetes_access.id
+  description = "Kubernetes kubectl communication from Bastion DevOps"
+}
+
+resource "aws_security_group_rule" "bastion-devops_to_kubernetes_nodeports" {
+  type              = "ingress"
+  from_port         = 30000
+  to_port           = 32767
+  protocol          = local.protocol_tcp
+  source_security_group_id  = data.terraform_remote_state.bastion-devops.outputs.security_group_id
+  security_group_id = aws_security_group.kubernetes_access.id
+  description = "ALL NodePort from Bastion DevOps"
+}
+
 resource "aws_instance" "kubernetes_server" {
   count                       = var.KubernetesInstances
   ami                         = data.aws_ami.linux_ami.id
