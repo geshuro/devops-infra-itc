@@ -50,6 +50,19 @@ data "terraform_remote_state" "bastion-devops" {
   workspace = "bastion-devops"
 }
 
+data "terraform_remote_state" "kubernetes" {
+  backend = "s3"
+  config = {
+    profile        = var.BackendProfile
+    bucket         = var.BackendS3
+    key            = "terraform/${var.Environment}"
+    region         = var.BackendRegion
+    encrypt        = true
+    dynamodb_table = var.BackendDynamoDB // Nombre de la tabla que almacena el estado de terraform.
+  }
+  workspace = "kubernetes"
+}
+
 data "aws_ami" "linux_ami" {
   most_recent = true
   owners = [element(split(";", var.ami_id_filter[var.linux_distro]), 1)]
@@ -246,6 +259,16 @@ resource "aws_security_group_rule" "postgresql_all_self" {
   self              = true
   security_group_id = aws_security_group.postgresql_access.id
   description = "ALL port communication from postgresql"
+}
+
+resource "aws_security_group_rule" "kubernetes_to_postgresql_pgbouncer" {
+  type              = "ingress"
+  from_port         = 6432
+  to_port           = 6432
+  protocol          = local.protocol_tcp
+  source_security_group_id  = element(data.terraform_remote_state.kubernetes.outputs.server_security_group_id, 0)
+  security_group_id = aws_security_group.postgresql_access.id
+  description = "postgresql pgbouncer communication from Kubernetes pro"
 }
 
 resource "aws_instance" "postgresql_server" {
