@@ -16,7 +16,7 @@ DNSInternalName = "atos-integracam.int"
 # Tipo de entorno, sh, dev, qa, test, pre, pro
 Environment = "sh"
 
-# Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Indra
+# Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos
 CostCenter = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 
 # Centro de coste aplicado a la cuenta, servicio o proyecto provisto por uuid 4

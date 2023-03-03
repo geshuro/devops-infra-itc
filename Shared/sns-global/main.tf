@@ -26,13 +26,13 @@ module "sns-global" {
 
 # module "sns-dev" {
 #   source                  = "../../Modules/sns"
-#   sns_topic_name          = "sns-sunat-cuc-dev-alerts"
-#   sns_subscription_emails = "srojo@minsait.com vvico@minsait.com dguerrab@minsait.com jatienzal@minsait.com cdnunez@indracompany.com edgarcia@indracompany.com" //Space-separated emails to subscribe
+#   sns_topic_name          = "sns-atos-integracam-dev-alerts"
+#   sns_subscription_emails = "isaac.mendoza.external@atos.net isaac.mendoza.external2@atos.net" //Space-separated emails to subscribe
 #   AWS_REGION              = "us-east-1"
-#   AWS_PROFILE             = "sunat-cuc"
+#   AWS_PROFILE             = "atos-integracam"
 #   tags = {
-#     company     = "SUNAT"
-#     project     = "SUNAT - CUC"
+#     company     = "ATOS"
+#     project     = "ATOS - INTEGRACAM"
 #     terraform   = "true"
 #     Environment = "Dev"
 #   }
@@ -40,13 +40,13 @@ module "sns-global" {
 
 # module "sns-test" {
 #   source                  = "../../Modules/sns"
-#   sns_topic_name          = "sns-sunat-cuc-testing-alerts"
-#   sns_subscription_emails = "srojo@minsait.com vvico@minsait.com dguerrab@minsait.com jatienzal@minsait.com cdnunez@indracompany.com edgarcia@indracompany.com" //Space-separated emails to subscribe
+#   sns_topic_name          = "sns-atos-integracam-testing-alerts"
+#   sns_subscription_emails = "saac.mendoza.external@atos.net isaac.mendoza.external2@atos.net" //Space-separated emails to subscribe
 #   AWS_REGION              = "us-east-1"
-#   AWS_PROFILE             = "sunat-cuc"
+#   AWS_PROFILE             = "atos-integracam"
 #   tags = {
-#     company     = "SUNAT"
-#     project     = "SUNAT - CUC"
+#     company     = "ATOS"
+#     project     = "ATOS - INTEGRACAM"
 #     terraform   = "true"
 #     Environment = "Test"
 #   }

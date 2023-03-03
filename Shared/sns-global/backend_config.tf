@@ -1,7 +1,7 @@
 terraform {
   required_version = "~> 0.12"
   backend "s3" {
-    profile = "sunat-cuc" // Profile acoradado con el equipo con permisos para trabajar sobre el S3 y dynamodb.
+    profile = "atos-integracam" // Profile acoradado con el equipo con permisos para trabajar sobre el S3 y dynamodb.
     ### Ajustar el valor del bucket al valor desplegado por el modulo Remotetfstate
     bucket         = "s3-devsysops-711992207767-us-east-1-mbyb" // Este es el bucket S3 generado para almacenar el estado de la infarestructura
     key            = "terraform/shared"                         // Se acuerda que el formato sera, terraform/environment de trabajo en este caso dev

@@ -1,7 +1,6 @@
 variable "Owner" {
   type        = string
   description = "User id of AWS account"
-  #default     = "cdnunez-indra"
 }
 
 variable "Environment" {
@@ -73,7 +72,6 @@ variable "BackendRegion" {
 variable "BackendProfile" {
   type        = string
   description = "Backend profile of remote state for terraform"
-  #default     = "sunat-cuc"
 }
 
 variable "ami_id_filter" {
@@ -92,7 +90,6 @@ variable "ami_id_filter" {
         "centos6"  = "CentOS Linux 6*;679593333241"
         "rhel8"    = "RHEL-8.?*;309956199498"
         "rhel7_8"  = "RHEL-7.8_HVM-20200803-x86_64-0-Hourly2-GP2;309956199498"
-        "rhel7_8_sunat"  = "Redhat-SUNAT-sinclave;711992207767"
         "rhel7"    = "RHEL-7.?*GA*;309956199498"
         "rhel6"    = "RHEL-6.?*GA*;309956199498"
     }

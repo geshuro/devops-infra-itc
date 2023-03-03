@@ -1,7 +1,6 @@
 variable "Owner" {
   type        = string
   description = "User id of AWS account"
-  #default     = "cdnunez-indra"
 }
 
 variable "Environment" {
@@ -12,7 +11,7 @@ variable "Environment" {
 
 variable "CostCenter" {
   type        = string
-  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Indra"
+  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos"
   #default     = "TTAA"
 }
 
@@ -49,7 +48,6 @@ variable "KubernetesInstances" {
 variable "InternalDomain" {
   type        = string
   description = "Internal domain of cloud infraestructure"
-  #default     = "sunat-cuc.int"
 }
 
 variable "BackendS3" {
@@ -73,13 +71,11 @@ variable "BackendRegion" {
 variable "BackendProfile" {
   type        = string
   description = "Backend profile of remote state for terraform"
-  #default     = "sunat-cuc"
 }
 
 variable "ZoneIdRoute53" {
   type        = string
   description = "Zone id of Route53"
-  #default     = "Z069789436OB6UDXPKED6"
 }
 
 variable "ami_id_filter" {
@@ -98,7 +94,6 @@ variable "ami_id_filter" {
         "centos6"  = "CentOS Linux 6*;679593333241"
         "rhel8"    = "RHEL-8.?*;309956199498"
         "rhel7_8"  = "RHEL-7.8_HVM-20200803-x86_64-0-Hourly2-GP2;309956199498"
-        "rhel7_8_sunat"  = "Redhat-SUNAT-sinclave;711992207767"
         "rhel7"    = "RHEL-7.?*GA*;309956199498"
         "rhel6"    = "RHEL-6.?*GA*;309956199498"
     }
@@ -107,7 +102,6 @@ variable "ami_id_filter" {
 
 variable "linux_distro" {
     type = string
-    #default = "rhel7_8_sunat"
 }
 /* imendozah
 variable "DiskSizeKubernetesData" {

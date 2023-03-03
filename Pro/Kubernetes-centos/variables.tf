@@ -98,7 +98,6 @@ variable "ami_id_filter" {
 
 variable "linux_distro" {
     type = string
-    #default = "rhel7_8_sunat"
 }
 /* imendozah
 variable "DiskSizeKubernetesData" {

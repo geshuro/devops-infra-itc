@@ -4,7 +4,7 @@ Owner = "imendoza-atos"
 # Tipo de entorno (dev, test, pre, pro)
 Environment = "dev"
 
-# Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Indra
+# Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos
 CostCenter = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 
 # Centro de coste aplicado a la cuenta, servicio o proyecto provisto por uuid 4

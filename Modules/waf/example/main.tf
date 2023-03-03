@@ -15,9 +15,9 @@ module "waf" {
   rest_api_gw_stage_name = ""
 
   AWS_REGION  = "eu-west-1"
-  AWS_PROFILE = "indra-arqref"
+  AWS_PROFILE = "atos-arqref"
   tags = {
-    company     = "Minsait"
+    company     = "Atos"
     project     = "Arquitecturas de Referencia - APIGW - Servicios"
     terraform   = "true"
     Environment = "pro"

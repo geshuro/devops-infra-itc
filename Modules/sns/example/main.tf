@@ -12,11 +12,11 @@
 module "sns" {
   source                  = "../"
   sns_topic_name          = "example_topic"
-  sns_subscription_emails = "vvico@minsait.com" //Space-separated emails to subscribe
+  sns_subscription_emails = "isaac.mendoza.external@atos.net" //Space-separated emails to subscribe
   AWS_REGION              = "eu-west-1"
-  AWS_PROFILE             = "indra-arqref"
+  AWS_PROFILE             = "atos-arqref"
   tags = {
-    company     = "Minsait"
+    company     = "Atos"
     project     = "Arquitecturas de Referencia - APIGW - Servicios"
     terraform   = "true"
     Environment = "pro"

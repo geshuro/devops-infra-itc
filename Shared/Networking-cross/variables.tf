@@ -34,7 +34,6 @@ variable "amazon_side_asn" {
 variable "AWSprofileBackend" {
   type        = string
   description = "Nombre del perfil configurado en .aws/credentials"
-  #default     = "sunat-cuc"
 }
 
 variable "s3backend" {

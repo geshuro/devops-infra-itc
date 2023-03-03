@@ -35,7 +35,7 @@ variable "Environment" {
 
 variable "CostCenter" {
   type        = string
-  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Indra"
+  description = "Centro de coste aplicado a la cuenta, servicio o proyecto provisto por Atos"
   #default     = "TTAA"
 }
 variable "CostCenterId" {

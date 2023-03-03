@@ -41,7 +41,7 @@ data "aws_subnet_ids" "subnet_default" {
 #  # subnet_ids    =  "${module.vpc.private-internal-subnet-id}"
 #   tags          = {
 #                     proyect = "Arquitectura Referencia API - Microservicios",
-#                     company = "Minsait",
+#                     company = "Atos",
 #                     terraform = "true"
 #   }
 # }

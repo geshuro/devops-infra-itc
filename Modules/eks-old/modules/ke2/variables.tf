@@ -4,7 +4,7 @@
 variable "project" {
   description = "The name of the project"
   type        = string
-  default     = "sunat-cuc"
+  default     = "atos-integracam"
 }
 
 variable "environment" {
