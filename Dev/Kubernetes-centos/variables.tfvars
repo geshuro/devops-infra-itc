@@ -42,5 +42,5 @@ KubernetesInstanceType = "t2.medium"
 AvailabilityZoneEBS = "eu-west-1a"
 
 # Add Stop/Start via cron Cloudwacht
-AutoStart = true
-AutoStop = true
+AutoStart = false
+AutoStop = false
