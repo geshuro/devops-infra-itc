@@ -13,9 +13,6 @@ regionbackend = "eu-west-1"
 # "Nombre del profile con permisos de acceso al backend"
 profilebackend = "atos-integracam-tf-desarrollo-ireland"
 
-# "Al tener varios entornos se debe utilizar esta variable para identificar en donde se encuentra el status del backend para shared"
-#EnvironmentbackendShared = "dev"
-
 # Tipo de entorno, shared, dev, qa, test, pre, pro
 Environment = "shared"
 
@@ -40,10 +37,6 @@ name = "bastion-devops"
 # Add Stop/Start via cron Cloudwacht
 AutoStart = false
 AutoStop = true
-### SNS ###########
-
-# "Email for sns notifications"
-#subscriptions_emails = "imendozah@atos.com, imendozah@atos.com"
 
 #instance_type = "t3.medium"
 instance_type = "t3.small"
