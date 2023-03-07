@@ -1,9 +1,6 @@
 # "Nombre del bucket configurado para el backend"
 s3backend = "s3-devsysops-841131224287-eu-west-1-jjci"
 
-# "Nombre del bucket configurado para devops"
-s3devops = "s3-devsysops-841131224287-eu-west-1-jjci"
- 
 # "Nombre de la tabla de dynamodb para el backend"
 dynamobackend = "tf-up-and-running-locks-eu-west-1-jjci"
  

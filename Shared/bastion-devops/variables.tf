@@ -4,11 +4,6 @@ variable "s3backend" {
   type = string
 }
 
-variable "s3devops" {
-  description = "Nombre del bucket configurado para el las configuraciones aplicaciones"
-  type = string
-}
-
 variable "dynamobackend" {
   description = "Nombre de la tabla de dynamodb para el backend"
   type = string
