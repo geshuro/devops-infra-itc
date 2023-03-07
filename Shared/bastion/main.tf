@@ -488,20 +488,9 @@ resource "aws_launch_configuration" "bastion" {
                 s3devsysops=$(aws s3 ls | grep "${var.s3devops}" | grep "${data.aws_region.current.name}"| cut -d " " -f 3)
                 # Actualizar sistema
                 yum update -y
-                # Instalar docker
-                #yum install -y docker
-                #service docker start
-                #usermod -a -G docker ec2-user
                 yum install -y git jq
                 yum -y groupinstall "Development Tools"
-                #curl -L https:\/\/github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/bin/docker-compose
-                #chmod +x /usr/local/bin/docker-compose
-                #systemctl enable --now docker
-                # Iptables para forwarding ssh
-                #iptables -t nat -C POSTROUTING -o eth0 -s 10.20.8.0/22 -j MASQUERADE 2> /dev/null
-                #iptables -t nat -A POSTROUTING -o eth0 -s 10.20.8.0/22 -j MASQUERADE
                 # Configurar sincronizacion de usuarios
-                #rpm -i https:\/\/s3-${data.aws_region.current.name}.amazonaws.com/widdix-aws-ec2-ssh-releases-${data.aws_region.current.name}/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm
                 aws s3 cp s3://$s3devsysops/sysops/bastion/autossh/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm /opt/openvpn/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm
                 rpm -i /opt/openvpn/aws-ec2-ssh-1.9.2-1.el7.centos.noarch.rpm
                 sed -i 's/IAM_AUTHORIZED_GROUPS=""/IAM_AUTHORIZED_GROUPS="ssh"/' /etc/aws-ec2-ssh.conf
@@ -509,7 +498,6 @@ resource "aws_launch_configuration" "bastion" {
                 sed -i 's/DONOTSYNC=1/DONOTSYNC=0/' /etc/aws-ec2-ssh.conf
                 aws s3 cp  s3://$s3devsysops/sysops/bastion/autossh/import_users.sh /usr/bin/
                 chmod +x /usr/bin/import_users.sh 
-                #'cp' -f /usr/bin/import_users.sh  /bin/ 
                 # Instalar openvpn
                 amazon-linux-extras install -y epel
                 mkdir -p /opt/openvpn
@@ -600,7 +588,7 @@ resource "aws_autoscaling_schedule" "bastion-up-weekend" {
 }
 
 #Creacion de grupos por defecto para acceso console, credentials, ssh y openvpn 
-/* imendoza porque ya existe este recursos
+/* imendoza porque ya existe estos recursos
 resource "aws_iam_group" "ssh" {
   name = "ssh"
   path = "/"

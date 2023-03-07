@@ -35,7 +35,6 @@ name = "bastion-devops"
 AutoStart = false
 AutoStop = true
 
-#instance_type = "t3.medium"
 instance_type = "t3.small"
 
 ssh_public_key_path = "./secret"

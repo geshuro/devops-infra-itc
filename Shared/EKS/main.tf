@@ -10,13 +10,6 @@ provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.cluster.token
-  #load_config_file       = false
-  #version                = "~> 1.7"
-  /*imendozahexec {
-    api_version = "client.authentication.k8s.io/v1alpha1"
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_id]
-    command     = "aws"
-  }*/
 }
 
 data "terraform_remote_state" "networking" {
@@ -40,11 +33,6 @@ resource "random_string" "suffix" {
   special = false
 }
 
-
-
-
-
-
 ################################################################################
 # Security Group
 ################################################################################
@@ -63,8 +51,6 @@ resource "aws_security_group" "worker_group_mgmt_one" {
   }
 }
 
-
-
 ################################################################################
 # Modulo EKS 
 ################################################################################ 
@@ -77,14 +63,6 @@ module "eks" {
   cluster_endpoint_public_access  = true
 
   cluster_addons = {
-    /* imendozah
-    coredns = {
-      resolve_conflicts = "OVERWRITE"
-    }
-    kube-proxy = {}
-    vpc-cni = {
-      resolve_conflicts = "OVERWRITE"
-    }*/
     aws-ebs-csi-driver = {
       service_account_role_arn = "arn:aws:iam::841131224287:role/AmazonEKS_EBS_CSI_DriverRole"
       /* Rol que contiene politica administrada de AWS llamada AmazonEBSCSIDriverPolicy
@@ -162,15 +140,6 @@ module "eks" {
         Environment = var.Environment
       }
 
-      /*imendozah no permite crear pod de aws elb controller
-      taints = {
-        dedicated = {
-          key    = "dedicated"
-          value  = "gpuGroup"
-          effect = "NO_SCHEDULE"
-        }
-      }*/
-
       update_config = {
         max_unavailable_percentage = 50 # or set `max_unavailable`
       }
@@ -229,16 +198,6 @@ provider "kubectl" {
 }
 
 data "aws_caller_identity" "current" {}
-
-/* imendozah crea otra vez openid - eliminar modulo
-module "eks_openid_connect" {
-  source                  = "../../Modules/eks/modules/eks-openid-connect"
-
-  cluster_oidc_issuer_url = module.eks.cluster_oidc_issuer_url
-  region                  = var.region
-
-  #depends_on              = [module.eks]
-}*/
 
 module alb {
   source                  = "../../Modules/eks/modules/eks-alb-ingress"

@@ -74,40 +74,10 @@ variable "generate_ssh_key" {
   description = "Si es `true`, se crea una nueva key pair"
 }
 
-# variable "region" {
-#     type = string
-#     description = "The AWS region to deploy into (e.g. us-east-1)"
-# }
-
-# variable "project" {
-#     type = string
-#     description = "Name of the project these resources are being created for"
-# }
-
-# variable "creator" {
-#     type = string
-#     description = "Person creating these resources"
-# }
-
-# variable "environment" {
-#     type = string
-#     description = "Context these resources will be used in, e.g. production"
-# }
-
-# variable "freetext" {
-#     type = string
-#     description = "Information that does not fit in the other tags"
-# }
-
 variable "instance_type" {
   type        = string
   description = "Instance type to make the Bastion host from"
 }
-
-# variable "ssh_key_name" {
-#     type = string
-#     description = "Name of the SSH key pair to use when logging into the bastion host"
-# }
 
 variable "max_size" {
   type        = string
@@ -173,13 +143,3 @@ variable "cronweekendup" {
     end_time   = "2030-06-19T18:00:00Z"
   }
 }
-
-# variable "public_ssh_key" {
-#     type = string
-#     description = "Public half of the SSH key to import into AWS"
-# }
-
-# variable "security_group_ids" {
-#     type = "list"
-#     description = "List of security groups to apply to the instances"
-# }

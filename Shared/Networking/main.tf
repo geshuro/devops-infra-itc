@@ -40,9 +40,6 @@ module "VPCEndpoints" {
   source                   = "../../Modules/VPCEndpoints"
   main_vpc                 = module.networking.vpc_id
   subnets-id               = module.networking.private_subnet-id
-  #subnets-id-za            = module.networking.private_subnet-id
-  #subnets-id-zb            = module.networking.private_subnet-id
-  #route-table-private      = module.networking.route_table-private_subnet-ids
   route-table-private-za      = module.networking.route_table-private_subnet-ids-za
   route-table-private-zb      = module.networking.route_table-private_subnet-ids-zb
   nat-gw-count             = module.networking.nat_gateway-nat_gw-subnet_count

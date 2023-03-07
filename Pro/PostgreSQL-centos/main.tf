@@ -291,25 +291,6 @@ resource "aws_instance" "postgresql_server" {
     Auto-Start   = var.AutoStart
     Auto-Stop    = var.AutoStop
   }
-  /*probar despues para automatizar ssh desde ansible
-  provisioner "remote-exec" {
-    inline = [
-        "sudo adduser --disabled-password --gecos '' devopsansible",
-        "sudo mkdir -p /home/devopsansible/.ssh",
-        "sudo touch /home/devopsansible/.ssh/authorized_keys",
-        "sudo echo '${var.MY_USER_PUBLIC_KEY}' > authorized_keys",
-        "sudo mv authorized_keys /home/devopsansible/.ssh",
-        "sudo chown -R devopsansible:devopsansible /home/devopsansible/.ssh",
-        "sudo chmod 700 /home/devopsansible/.ssh",
-        "sudo chmod 600 /home/devopsansible/.ssh/authorized_keys",
-        "sudo usermod -aG sudo devopsansible"
-   ]
-
-    connection {
-     user     = "ubuntu"
-    }
-
-  }*/
 }
 
 resource "aws_route53_record" "postgresql_private_dns" {

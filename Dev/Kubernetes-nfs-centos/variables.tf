@@ -54,19 +54,16 @@ variable "Instances" {
 variable "BackendS3" {
   type        = string
   description = "Backend S3 of remote state for terraform"
-  #default     = "s3-devsysops-711992207767-us-east-1-mbyb"
 }
 
 variable "BackendDynamoDB" {
   type        = string
   description = "Backend DynamoDB of remote state for terraform"
-  #default     = "tf-up-and-running-locks-us-east-1-mbyb"
 }
 
 variable "BackendRegion" {
   type        = string
   description = "Backend region of remote state for terraform"
-  #default     = "us-east-1"
 }
 
 variable "BackendProfile" {
@@ -103,13 +100,11 @@ variable "linux_distro" {
 variable "DiskSizeDataEBS" {
   type        = number
   description = "Disk size of Instance data"
-  #default     = 8
 }
 
 variable "AvailabilityZoneEBS" {
   type        = string
   description = "Availability Zone EBS"
-  #default     = "us-east-1a"
 }
 
 variable "AutoStart" {

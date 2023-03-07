@@ -41,10 +41,6 @@ windows_instance_name = "fhir"
 windows_root_volume_size            = 360
 windows_root_volume_type            = "gp2"
 
-# Volumen extra
-#windows_data_volume_size            = 300
-#windows_data_volume_type            = "gp2"
-
 # Add Stop/Start via cron Cloudwatch
 AutoStart = true
 AutoStop = true

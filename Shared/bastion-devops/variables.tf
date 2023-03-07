@@ -19,12 +19,6 @@ variable "profilebackend" {
   type = string
 }
 
-/* imendozah
-variable "EnvironmentbackendShared" {
-  description = "Nombre del profile con permisos de acceso al backend"
-  type = string
-}*/
-
 variable "Environment" {
   type        = string
   description = "Tipo de entorno, dev, qa,test, pre, pro"

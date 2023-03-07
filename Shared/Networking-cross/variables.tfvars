@@ -35,4 +35,3 @@ Encryptacionbackend = true
 
 # Nombre tabla de dynamodb gestion terraform
 DynamoDBbackend      = "tf-up-and-running-locks-eu-west-1-jjci"
-

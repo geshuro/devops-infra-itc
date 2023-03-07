@@ -106,7 +106,6 @@ resource "aws_instance" "fhir" {
   key_name                    = module.aws_key_pair.key_name
   get_password_data           = true
   user_data                   = templatefile("${path.module}/cloud-init.tpl", {windows_instance_name  = "${var.windows_instance_name}"})
-  #user_data                   = data.template_file.windows-userdata.rendered
   
   tags = {
     Name         = "${var.Environment}-windows-fhir_${var.Instances}-${random_string.random.result}-${count.index}"
@@ -127,17 +126,6 @@ resource "aws_instance" "fhir" {
     delete_on_termination = true
     encrypted             = true
   }
-
-  # extra disk
-  /*ebs_block_device {
-    device_name           = "/dev/xvda"
-    volume_size           = var.windows_data_volume_size
-    volume_type           = var.windows_data_volume_type
-    encrypted             = true
-    delete_on_termination = true
-  }*/
-  
-
 }
 
 resource "aws_route53_record" "fhir_dns" {

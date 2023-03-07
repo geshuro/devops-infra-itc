@@ -35,7 +35,6 @@ BackendProfile = "atos-integracam-tf-desarrollo-ireland"
 linux_distro = "centos8"
 
 #Disk size of Kubernetes data for custom PaaS of Kubernetes
-#DiskSizeDataEBS = 200
 DiskSizeDataEBS = 512
 #1 vcore y 1 GB RAM
 InstanceType = "t2.micro"

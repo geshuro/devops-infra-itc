@@ -281,25 +281,6 @@ resource "aws_instance" "kubernetes_server" {
     Auto-Start   = var.AutoStart
     Auto-Stop    = var.AutoStop
   }
-  /* imendozah
-  volume_tags = {
-    Name         = "${var.Environment}-k8s_${var.linux_distro}_${var.KubernetesInstances}-${random_string.random.result}-${count.index}"
-    Owner        = var.Owner
-    Environment  = var.Environment
-    CostCenter   = var.CostCenter
-    CostCenterId = var.CostCenterId
-    ServiceId    = var.ServiceId
-    ProjectId    = var.ProjectId
-  }
-  
-  ebs_block_device {
-    device_name           = "/dev/sdb"
-    volume_size           = var.DiskSizeKubernetesData
-    volume_type           = "gp2"
-    delete_on_termination = true
-  }*/
-
-  #user_data = data.template_cloudinit_config.kubernetes_configuration[count.index].rendered
 }
 
 resource "aws_ebs_volume" "kubernetes_ebs" {

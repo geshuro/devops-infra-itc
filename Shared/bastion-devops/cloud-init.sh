@@ -11,7 +11,6 @@ curl -o /root/amazon-cloudwatch-agent.deb https://s3.amazonaws.com/amazoncloudwa
 #install it
 dpkg -i -E /root/amazon-cloudwatch-agent.deb
 usermod -aG adm cwagent
-#mv /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json.jinga /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
 cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
 {
 	"logs": {

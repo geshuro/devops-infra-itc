@@ -4,7 +4,6 @@ project = "integracam"
 
 cluster_version = "1.23"
 
-#instance_type = "m5.large"
 #2 cpu 8gb
 instance_type = "t3a.large" 
 
@@ -31,10 +30,6 @@ ServiceId = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
 
 # Identificador Unico de proyecto provisto por uuid4
 ProjectId = "ESTE-VALOR-NO-ESTA-IDENTIFICADO-AUN"
-
-
-
-
 
 # Backend S3 of remote state for terraform
 BackendS3 = "s3-devsysops-841131224287-eu-west-1-jjci"

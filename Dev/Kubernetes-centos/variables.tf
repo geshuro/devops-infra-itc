@@ -99,12 +99,6 @@ variable "ami_id_filter" {
 variable "linux_distro" {
     type = string
 }
-/* imendozah
-variable "DiskSizeKubernetesData" {
-  type        = number
-  description = "Disk size of Kubernetes data for custom PaaS of Kubernetes"
-  #default     = 8
-}*/
 
 variable "DiskSizeKubernetesDataEBS" {
   type        = number

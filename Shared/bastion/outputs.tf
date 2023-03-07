@@ -43,28 +43,6 @@ output "bastion_launch_config_arn" {
   value       = aws_launch_configuration.bastion.arn
 }
 
-//output "Subnet-IDS" {
-//    value = data.terraform_remote_state.bastion.outputs.nat-subnet-id
-//}
-/* imendoza porque ya existe este recursos
-output "group-ssh" {
-  value = aws_iam_group.ssh.name
-}
-
-output "group-ssh-admin" {
-  value = aws_iam_group.ssh-admin.name
-}*/
-
 output "eip_bastion" {
   value = aws_eip.eip_bastion.public_ip
 }
-
-//output "VPC-CidrBlock" {
-//  value = data.terraform_remote_state.bastion.outputs.vpc_cidr_block
-//}
-
-
-
-# output "user-data" {
-#     value = "${data.template_file.user_data.rendered}"
-# }

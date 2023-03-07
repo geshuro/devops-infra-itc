@@ -21,4 +21,3 @@ module "start_ec2_instances" {
     value = true
   }
 }
-

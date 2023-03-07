@@ -41,7 +41,6 @@ ZoneIdRoute53 = "Z083667737ZSMKCBP9ZPT"
 linux_distro = "centos8"
 
 #Disk size of Kubernetes data for custom PaaS of Kubernetes
-#DiskSizeKubernetesData = 200
 DiskSizeKubernetesDataEBS = 54
 #2 vcores y 4GB RAM
 KubernetesInstanceType = "t2.medium"

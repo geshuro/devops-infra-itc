@@ -33,32 +33,6 @@ data "terraform_remote_state" "bastion" {
   }
   workspace = "bastion"
 }
-/* imendozah
-data "terraform_remote_state" "sns" {
-  backend = "s3"
-  config = {
-    profile        = var.profilebackend
-    bucket         = var.s3backend
-    key            = "terraform/${var.Environment}"
-    region         = var.regionbackend
-    encrypt        = true
-    dynamodb_table = var.dynamobackend // Nombre de la tabla que almacena el estado de terraform.
-  }
-  workspace = "sns-global"
-}*/
-/* imendozah
-data "terraform_remote_state" "data-devops" {
-  backend = "s3"
-  config = {
-    profile        = var.profilebackend
-    bucket         = var.s3backend
-    key            = "terraform/${var.Environment}"
-    region         = var.regionbackend
-    encrypt        = true
-    dynamodb_table = var.dynamobackend // Nombre de la tabla que almacena el estado de terraform.
-  }
-  workspace = "data-devops"
-}*/
 
 data "aws_ami" "ubuntu-18_04" {
   most_recent = true
@@ -388,31 +362,6 @@ resource "aws_security_group_rule" "bastion_to_this" {
   source_security_group_id  = data.terraform_remote_state.bastion.outputs.bastion_sg_id
   security_group_id = aws_security_group.sg_this.id
 }
-/* imendozah
-resource "aws_security_group_rule" "this_to_aurora_postgres" {
-  type              = "ingress"
-  from_port         = 5432
-  to_port           = 5432
-  protocol          = "tcp"
-  source_security_group_id  = aws_security_group.sg_this.id
-  security_group_id = data.terraform_remote_state.data-devops.outputs.aurora_arqref_security_group_id
-}*/
-/* imendozah
-resource "aws_security_group_rule" "this_to_elc_redis" {
-  type              = "ingress"
-  from_port         = 6379
-  to_port           = 6379
-  protocol          = "tcp"
-  source_security_group_id  = aws_security_group.sg_this.id
-  security_group_id = data.terraform_remote_state.data-devops.outputs.elasticache_security_group
-}*/
-
-# locals {
-#   user_data = <<EOF
-# #!/bin/bash
-# echo "Hello Terraform!"
-# EOF
-# }
 
 module "ec2" {
   source                      = "../../Modules/ec2"
@@ -421,14 +370,9 @@ module "ec2" {
   ami                         = data.aws_ami.ubuntu-20_04.id
   instance_type               = var.instance_type
   subnet_id                   = data.terraform_remote_state.networking.outputs.private_2_subnet-id[0]
-  #subnet_ids                  = 
   vpc_security_group_ids      = [aws_security_group.sg_this.id]
   associate_public_ip_address = false
-  #placement_group            =
   user_data                   = data.template_cloudinit_config.cloud-init.rendered
-  #user_data_base64            = base64encode(local.user_data)
-  #user_data_base64            = base64encode(data.template_cloudinit_config.cloud-init.rendered)
-  #encrypted                   = "true"
   key_name                    = module.aws_key_pair.key_name
   monitoring                  = true
   iam_instance_profile        = aws_iam_instance_profile.this_profile.name
@@ -443,37 +387,9 @@ module "ec2" {
     }
   ]
 
-  # ebs_block_device = [
-  #   {
-  #     device_name = "/dev/sdf"
-  #     volume_type = "gp2"
-  #     volume_size = 5
-  #     encrypted   = true
-  #     kms_key_id  = aws_kms_key.this.arn
-  #   }
-  # ]
-
   tags = module.label_this.tags
-  # lifecycle {
-  #       create_before_destroy = true
-  # }
-}
-/* imendozah
-resource "aws_route53_record" "host-variable" {
-  zone_id = data.terraform_remote_state.networking.outputs.internal_service_domain_id[0]
-  name    = module.label_this.id
-  type    = "A"
-  ttl     = "60"
-  records = module.ec2.private_ip
-}
 
-resource "aws_route53_record" "host" {
-  zone_id = data.terraform_remote_state.networking.outputs.internal_service_domain_id[0]
-  name    = "${var.stage}-${var.name}-${module.label_this.id}"
-  type    = "CNAME"
-  ttl     = "60"
-  records = ["${module.label_this.id}.${data.terraform_remote_state.networking.outputs.internal_service_domain}"]
-}*/
+}
 
 resource "aws_route53_record" "host-bastion-devops" {
   zone_id = data.terraform_remote_state.networking.outputs.internal_service_domain_id[0]

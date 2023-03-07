@@ -86,33 +86,10 @@ data "aws_ami" "windows-2019" {
   }
 }
 
-
 resource "random_string" "random" {
   length    = 4
   min_lower = 4
   special   = false
-}
-
-# Bootstrapping PowerShell Script
-data "template_file" "windows-userdata" {
-  template = <<EOF
-<powershell>
-# Rename Machine
-Rename-Computer -NewName "${var.windows_instance_name}" -Force;
-
-# Install IIS
-# Install-WindowsFeature -name Web-Server -IncludeManagementTools;
-
-# Install Microsoft Edge Enterprise X64
-md -Path $env:temp\edgeinstall -erroraction SilentlyContinue | Out-Null
-$Download = join-path $env:temp\edgeinstall MicrosoftEdgeEnterpriseX64.msi
-Invoke-WebRequest 'https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/a2662b5b-97d0-4312-8946-598355851b3b/MicrosoftEdgeEnterpriseX64.msi'  -OutFile $Download
-Start-Process "$Download" -ArgumentList "/quiet"
-
-# Restart machine
-shutdown -r -t 10;
-</powershell>
-EOF
 }
 
 # Create EC2 Instance
@@ -127,7 +104,7 @@ resource "aws_instance" "fhir" {
   source_dest_check           = false
   key_name                    = module.aws_key_pair.key_name
   get_password_data           = true
-  user_data                   = data.template_file.windows-userdata.rendered
+  user_data                   = templatefile("${path.module}/cloud-init.tpl", {windows_instance_name  = "${var.windows_instance_name}"})
   
   tags = {
     Name         = "${var.Environment}-windows-fhir_${var.Instances}-${random_string.random.result}-${count.index}"
@@ -148,17 +125,6 @@ resource "aws_instance" "fhir" {
     delete_on_termination = true
     encrypted             = true
   }
-
-  # extra disk
-  /*ebs_block_device {
-    device_name           = "/dev/xvda"
-    volume_size           = var.windows_data_volume_size
-    volume_type           = var.windows_data_volume_type
-    encrypted             = true
-    delete_on_termination = true
-  }*/
-  
-
 }
 
 resource "aws_route53_record" "fhir_dns" {

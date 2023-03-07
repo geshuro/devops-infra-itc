@@ -66,7 +66,6 @@ data "terraform_remote_state" "pro-networking" {
 # shared to dev for nat
 resource "aws_route" "route-peering-nat-shared-dev" {
   route_table_id            = data.terraform_remote_state.shared-networking.outputs.route_table-public_bastion_subnet-ids[0]
-  #element(tolist(data.aws_subnet_ids.subnets-lb-pri-zone-b.ids), count.index)
   destination_cidr_block    = data.terraform_remote_state.dev-networking.outputs.vpc_cidr_block
   vpc_peering_connection_id = data.terraform_remote_state.dev-networking.outputs.vpc_peering_shared_id
 }
@@ -158,7 +157,6 @@ resource "aws_route" "route-peering-pri-zb-shared-pro" {
 
 
 # Crear transitgateway y unir las VPC al transit gateway
-
 
 resource "aws_ec2_transit_gateway" "hub" {
   description = "Transit Gateway HUB Shared"

@@ -88,18 +88,6 @@ variable "windows_root_volume_type" {
   #default     = "gp2"
 }
 
-/* variable "windows_data_volume_size" {
-  type        = number
-  description = "Volumen extra size"
-  #default     = 300
-}
-
-variable "windows_data_volume_type" {
-  type        = string
-  description = "Volumen extra type"
-  #default     = "gp2"
-}*/
-
 variable "AutoStart" {
   description = "Add Start via cron Cloudwatch"
   type = bool
